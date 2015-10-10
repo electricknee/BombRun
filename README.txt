@@ -2,6 +2,11 @@ BombRun
 A two-player head-to-head challenge
 *requires 2 keyboards to play
 
+Complile: Make
+Play: 	  Run
+
+
+
 Controls:
 Player 1:
 	Move - WASD
