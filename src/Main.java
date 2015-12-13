@@ -44,7 +44,7 @@ public class Main {
         gameBoard.addPlayer(11*11-1,new Player(1));
         gameBoard.repaint();
 
-
+	frame.setVisible(true);
 
     }
 }
