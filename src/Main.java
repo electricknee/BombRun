@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by zakary on 6/28/15.
@@ -12,6 +13,24 @@ public class Main {
     public static Board gameBoard;
 
     public static void main(String [ ] args) throws IOException{
+
+        boolean server=false;
+        System.out.println("Enter (1)server or (2)client");
+        InputStreamReader in = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(in);
+        int result = Integer.parseInt( br.readLine() );
+
+        if(result == 1){
+            server = true;
+            System.out.println("Starting Server");
+        }
+        else if(result == 2){
+            server = false;
+            System.out.println("Starting Client");
+        }
+        else{
+            System.out.println("Input Error");
+        }
 
 
 
@@ -50,11 +69,13 @@ public class Main {
 
         frame.setVisible(true);
 
-	      frame.setVisible(true);
-
-        HostServer hostServer = new HostServer(9998);
-        hostServer.runServer();
-
+        if(server){
+            HostServer hostServer = new HostServer(9998);
+            hostServer.runServer();
+        } else{
+            Client client = new Client(9998);
+            client.connectToServer();
+        }
 
     }
 }
