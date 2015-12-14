@@ -32,8 +32,6 @@ public class Main {
             System.out.println("Input Error");
         }
 
-
-
         BoardFrame frame = new BoardFrame(800);
         frame.setLayout(new BorderLayout());
         gameBoard = new Board(11);
