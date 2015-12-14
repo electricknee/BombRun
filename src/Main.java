@@ -18,7 +18,7 @@ public class Main {
         frame.add(BorderLayout.CENTER,gameBoard);
 
         JButton button = new JButton("RESET GAME");
-        button.addActionListener(new ActionListener() 
+        button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -40,20 +40,15 @@ public class Main {
             for (int i = 1;i<=5;i++)
                 gameBoard.blockCell((10 + i*2)+11*x);
         // end temp
-
-
-
+        
         gameBoard.addPlayer(0, new Player(2));
         gameBoard.addPlayer(11*11-1,new Player(1));
         gameBoard.repaint();
 
-<<<<<<< HEAD
         frame.setVisible(true);
 
-
-=======
 	frame.setVisible(true);
->>>>>>> be28218a800b240cf2c51d265f347759ba23bf11
+
 
     }
 }
