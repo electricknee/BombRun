@@ -91,7 +91,7 @@ public class Controller {
 
             }
         });
-        //-------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------
         comp.getActionMap().put("down2", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
 
