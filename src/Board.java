@@ -73,6 +73,12 @@ public class Board extends JComponent {
         }
         ResetBoard();
     }
+    public void syncBoard(Cell[] newCells){ // client sync board with server
+        for(int i=0;i<this.boardSize;i++){
+            this.boardCells[i]= newCells[i];
+        }
+        repaint();
+    }
     public void paint(Graphics g){
 
         int row=1;
