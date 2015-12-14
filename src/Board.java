@@ -16,6 +16,31 @@ public class Board extends JComponent {
     private int player1Index=0;
     private int player2Index=0;
 //-------------------------------------------------------------------------------------
+    public void printBoard(){
+        System.out.println("Board Printing");
+        for(int i=0;i<boardSize;i++){
+            System.out.print("[");
+            System.out.print(i);
+            System.out.print("] \n");
+
+            Cell cp = boardCells[i];
+            if(cp.hasBomb()){
+                System.out.println("Bomb");
+            }
+            if(cp.hasBarrel()){
+                System.out.println("Barrel");
+            }
+            if(cp.hasPlayer()){
+                System.out.println("Player");
+            }
+            if(cp.hasFire()){
+                System.out.println("Fire");
+            }
+            if(cp.hasOrangeFire()){
+                System.out.println("Orange Fire");
+            }
+        }
+    }
     public int getPlayerIndex(int ID){
             if(ID==1)
                 return player1Index;

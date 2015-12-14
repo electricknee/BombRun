@@ -16,17 +16,17 @@ public class Main {
         frame.setLayout(new BorderLayout());
         gameBoard = new Board(11);
         frame.add(BorderLayout.CENTER,gameBoard);
-        gameBoard.repaint();
-
 
         JButton button = new JButton("RESET GAME");
-        button.addActionListener(new ActionListener() {
+        button.addActionListener(new ActionListener() 
+        {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("pressed reset");
+                gameBoard.printBoard();
                 gameBoard.ResetBoard();
             }
         });
-        button.setBackground(Color.RED);
 
         frame.add(BorderLayout.SOUTH,button);
 
@@ -40,9 +40,14 @@ public class Main {
             for (int i = 1;i<=5;i++)
                 gameBoard.blockCell((10 + i*2)+11*x);
         // end temp
+
+
+
         gameBoard.addPlayer(0, new Player(2));
         gameBoard.addPlayer(11*11-1,new Player(1));
         gameBoard.repaint();
+
+        frame.setVisible(true);
 
 
 
