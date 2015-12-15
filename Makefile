@@ -6,4 +6,5 @@ run:
 	java -cp out Main
 clean:
 	rm -r out
+	mkdir out
 

@@ -5,7 +5,7 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Cell {
+public class Cell implements java.io.Serializable{
 
     private int cellSize = 10;
     private int row;
@@ -23,6 +23,12 @@ public class Cell {
 
         this.row = x;
         this.column = y;
+    }
+    public void print(){
+      System.out.print("cell location\nx = ");
+      System.out.println(row);
+      System.out.print("y = ");
+      System.out.println(column);
     }
     public void setBomb(int index, int time){
         this.bomb = new Bomb(index,time);

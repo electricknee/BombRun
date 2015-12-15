@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Board extends JComponent {
+public class Board extends JComponent implements java.io.Serializable{
 
     public int rowSize = 20;
     public int boardSize = rowSize*rowSize;
@@ -73,6 +73,7 @@ public class Board extends JComponent {
         }
         ResetBoard();
     }
+
     public void paint(Graphics g){
 
         int row=1;
@@ -378,8 +379,8 @@ public class Board extends JComponent {
         for (int x=0;x<boardSize;x++){
             boardCells[x].clearCell();
         }
-        this.addPlayer(0,new Player(2));
-        this.addPlayer(boardSize-1,new Player(1));
+        this.addPlayer(0,new Player(1));
+        this.addPlayer(boardSize-1,new Player(2));
         this.addRandomBarrels();
         repaint();
     }

@@ -4,7 +4,7 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Player {
+public class Player implements java.io.Serializable{
 
     private Board board;
     private boolean dead=false;
@@ -44,4 +44,3 @@ public class Player {
         return this.dead;
     }
 }
-

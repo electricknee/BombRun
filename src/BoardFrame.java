@@ -7,9 +7,9 @@ import java.awt.*;
 public class BoardFrame extends JFrame{
 
     public BoardFrame(int windowSize){
-        this.setBackground(Color.LIGHT_GRAY);
+        this.getContentPane().setBackground(Color.BLACK);
         this.setResizable(false);
-        this.setSize(windowSize,windowSize);
+        this.setSize(700,700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
