@@ -44,7 +44,7 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     System.out.println("pressed reset");
-                    gameBoard.printBoard();
+                    //gameBoard.printBoard();
                     gameBoard.ResetBoard();
                 }
             });
@@ -69,6 +69,9 @@ public class Main {
             hostServer.initServer();
             Controller myController = new Controller(1);
             myController.addKeyBindings();
+            while(true){
+                hostServer.readMoveFromClient();
+            }
         } else{
             client = new Client(9998);
             client.connectToServer();

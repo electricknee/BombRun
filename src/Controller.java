@@ -30,17 +30,21 @@ public class Controller implements java.io.Serializable{
         this.rowSize = board.getRowSize();
         this.player_number = num;
     }
-
-    // key bindings
+/*----------------------------------------------------------------------------*/
     public void addKeyBindings() {
 
-            JComponent comp = Main.gameBoard;
-        // add the key bindings for up, down, left and right to the input map
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "down1");
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "up1");
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "left1");
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "right1");
-        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "bomb1");
+        JComponent comp = Main.gameBoard;
+
+        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "down1");
+        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "up1");
+        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "left1");
+        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "right1");
+        comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "bomb1");
 
         // assign actions to the key bindings in the action map
         comp.getActionMap().put("down1", new AbstractAction() {
@@ -70,6 +74,13 @@ public class Controller implements java.io.Serializable{
                       board.repaint();
                   }
               }
+              else{
+                try{
+                    client.sendMoveToServer(Client.movement.UP);
+                  }catch(IOException e){
+                    e.printStackTrace();
+                  }
+              }
             }
         });
         comp.getActionMap().put("left1", new AbstractAction() {
@@ -81,6 +92,13 @@ public class Controller implements java.io.Serializable{
                         board.repaint();
                     }
                 }
+                else{
+                  try{
+                      client.sendMoveToServer(Client.movement.LEFT);
+                    }catch(IOException e){
+                      e.printStackTrace();
+                    }
+                }
             }
         });
         comp.getActionMap().put("right1", new AbstractAction() {
@@ -90,6 +108,13 @@ public class Controller implements java.io.Serializable{
                     if (board.movePlayer(target_index, 3)) {
                         board.setPlayerIndex(target_index + 1, 1);
                         board.repaint();
+                    }
+                }
+                else{
+                  try{
+                      client.sendMoveToServer(Client.movement.RIGHT);
+                    }catch(IOException e){
+                      e.printStackTrace();
                     }
                 }
             }
@@ -105,6 +130,13 @@ public class Controller implements java.io.Serializable{
                           Timer timer = new Timer();
                           timer.schedule(new replenishBombTask(1),3000);
                       }
+                }
+                else{
+                  try{
+                      client.sendMoveToServer(Client.movement.BOMB);
+                    }catch(IOException e){
+                      e.printStackTrace();
+                    }
                 }
             }
         });

@@ -12,6 +12,7 @@ import java.io.OutputStream;
  * Created by zakary on 12/13/15.
  */
 public class Client {
+
     public enum movement{
       UP, DOWN, LEFT, RIGHT, BOMB
     }
@@ -87,7 +88,7 @@ public class Client {
         }
         // Socket to client has already been created
         try{
-            System.out.println("writing to output stream");
+            //System.out.println("writing to output stream");
             os.write(send_digit);
             os.flush();
         }catch(IOException e){
