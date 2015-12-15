@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String [ ] args) throws IOException, ClassNotFoundException{
 
-        boolean server=false;
+        boolean server = false;
         System.out.println("Enter (1)server or (2)client");
         InputStreamReader in = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(in);
@@ -37,43 +37,48 @@ public class Main {
         gameBoard = new Board(11);
         frame.add(BorderLayout.CENTER,gameBoard);
 
-        JButton button = new JButton("RESET GAME");
-        button.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("pressed reset");
-                gameBoard.printBoard();
-                gameBoard.ResetBoard();
-            }
-        });
-
-        frame.add(BorderLayout.SOUTH,button);
-
-
-        //frame.getJMenuBar().add(button);
-        Controller myController = new Controller(1);
-        myController.addKeyBindings();
-
-        // Temporary Barrels
-       for(int x=0;x<10;x=x+2)
-            for (int i = 1;i<=5;i++)
-                gameBoard.blockCell((10 + i*2)+11*x);
-        // end temp
-
-        gameBoard.addPlayer(0, new Player(2));
-        gameBoard.addPlayer(11*11-1,new Player(1));
-        gameBoard.repaint();
-
-        frame.setVisible(true);
-
         if(server){
-            HostServer hostServer = new HostServer(9998);
-            hostServer.initServer();
-        } else{
-            Client client = new Client(9998);
-            client.connectToServer();
+            JButton button = new JButton("RESET GAME");
+            button.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("pressed reset");
+                    gameBoard.printBoard();
+                    gameBoard.ResetBoard();
+                }
+            });
+
+            frame.add(BorderLayout.SOUTH,button);
+
+            // Temporary Barrels
+           for(int x=0;x<10;x=x+2)
+                for (int i = 1;i<=5;i++)
+                    gameBoard.blockCell((10 + i*2)+11*x);
+            // end temp
+
+            gameBoard.addPlayer(0, new Player(1));
+            gameBoard.repaint();
+
+            frame.setVisible(true);
         }
+        Client client;
+        HostServer hostServer;
+        if(server){
+            hostServer = new HostServer(9998);
+            hostServer.initServer();
+            Controller myController = new Controller(1);
+            myController.addKeyBindings();
+        } else{
+            client = new Client(9998);
+            client.connectToServer();
+            System.out.println("creating controller");
+            Controller myController = new Controller(2,client);
+            System.out.println("adding keybindings for client");
+            myController.addKeyBindings();
+        }
+
+
 
     }
 }

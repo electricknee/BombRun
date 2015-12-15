@@ -43,13 +43,13 @@ public class HostServer {
                 // read movements in
                 is = socket_to_client.getInputStream();
                 isr = new InputStreamReader(is);
-
+                /* //Testing
                 readMoveFromClient();
                 Board testBoard = new Board(7);
                 sendBoardtoClient(testBoard);
-
+                */
         }catch(IOException e){
-          System.out.println("IOException");
+           e.printStackTrace();
         }
     }
 
@@ -58,7 +58,7 @@ public class HostServer {
           System.out.println("trying to send board to client");
           oos.writeObject(board);
       }catch(IOException e){
-          System.out.println("IOException- while sending board");
+           e.printStackTrace();
       }
     }
 
@@ -83,7 +83,7 @@ public class HostServer {
                       return;
         }
       }catch(IOException e){
-        System.out.println("IOException- While Reading from Client");
+         e.printStackTrace();
       }
     }
 

@@ -45,15 +45,16 @@ public class Client {
             os = socket_to_server.getOutputStream();
 
             // testing
+            /*
             System.out.println("sending movement to server...");
             sendMoveToServer(movement.UP);
             Board recvBoard;
             recvBoard = getBoardfromServer();
             System.out.println(recvBoard.boardSize);
-
-        } catch(IOException | ClassNotFoundException e){
+            */
+        } catch(IOException e){
           e.printStackTrace();
-        }
+      } //catch(IOException | ClassNotFoundException e){ use this
     }
 
     public Board getBoardfromServer() throws ClassNotFoundException, IOException{
@@ -69,7 +70,6 @@ public class Client {
     }
     // Call this from Controller Class to send moves recieved from keyboard
     public void sendMoveToServer(movement m) throws IOException{
-
         char send_digit;
         switch(m){
           case UP:    send_digit = 'u'; // UP
@@ -91,7 +91,7 @@ public class Client {
             os.write(send_digit);
             os.flush();
         }catch(IOException e){
-          System.out.println("IOException- while sending movement");
+           e.printStackTrace();
         }
     }
 

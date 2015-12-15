@@ -384,8 +384,7 @@ public class Board extends JComponent implements java.io.Serializable{
         for (int x=0;x<boardSize;x++){
             boardCells[x].clearCell();
         }
-        this.addPlayer(0,new Player(2));
-        this.addPlayer(boardSize-1,new Player(1));
+        this.addPlayer(0,new Player(1));
         this.addRandomBarrels();
         repaint();
     }
