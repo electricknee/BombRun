@@ -12,7 +12,8 @@ public class Main {
 
     public static Board gameBoard;
 
-    public static void main(String [ ] args) throws IOException, ClassNotFoundException{
+    public static void main(String [ ] args)
+        throws IOException, ClassNotFoundException{
 
         boolean server = false;
         System.out.println("Enter (1)server or (2)client");
@@ -37,7 +38,7 @@ public class Main {
         gameBoard = new Board(11);
         frame.add(BorderLayout.CENTER,gameBoard);
 
-        if(server){
+        if(server){/*--------------------------------------SERVER-------------*/
             JButton button = new JButton("RESET GAME");
             button.addActionListener(new ActionListener()
             {
@@ -58,14 +59,15 @@ public class Main {
             // end temp
 
             gameBoard.addPlayer(0, new Player(1));
+            gameBoard.addPlayer(gameBoard.boardSize-1, new Player(2));
             gameBoard.repaint();
 
             frame.setVisible(true);
-        }
+        }/*-------------------------------------------------------------------*/
         Client client;
         HostServer hostServer;
         if(server){
-            hostServer = new HostServer(9998);
+            hostServer = new HostServer(9998,gameBoard);
             hostServer.initServer();
             Controller myController = new Controller(1);
             myController.addKeyBindings();
@@ -73,7 +75,7 @@ public class Main {
                 hostServer.readMoveFromClient();
             }
         } else{
-            client = new Client(9998);
+            client = new Client(9998); // client used to send moves to Server
             client.connectToServer();
             System.out.println("creating controller");
             Controller myController = new Controller(2,client);

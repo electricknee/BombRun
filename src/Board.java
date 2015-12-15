@@ -73,12 +73,7 @@ public class Board extends JComponent implements java.io.Serializable{
         }
         ResetBoard();
     }
-    public void syncBoard(Cell[] newCells){ // client sync board with server
-        for(int i=0;i<this.boardSize;i++){
-            this.boardCells[i]= newCells[i];
-        }
-        repaint();
-    }
+
     public void paint(Graphics g){
 
         int row=1;
@@ -385,6 +380,7 @@ public class Board extends JComponent implements java.io.Serializable{
             boardCells[x].clearCell();
         }
         this.addPlayer(0,new Player(1));
+        this.addPlayer(boardSize-1,new Player(2));
         this.addRandomBarrels();
         repaint();
     }

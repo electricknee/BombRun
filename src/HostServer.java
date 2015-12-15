@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.io.ObjectOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.TimerTask;
+import java.util.Timer;
 /**
  * Created by zakary on 12/13/15.
  */
@@ -16,6 +18,8 @@ public class HostServer {
     //call server.initServer
 
     int PORT;
+    Board board;
+    int rowSize;
     Socket socket_to_client;
     // send objects out
     OutputStream os;
@@ -24,8 +28,10 @@ public class HostServer {
     InputStream is;
     InputStreamReader isr;
 
-    public HostServer(int port){
+    public HostServer(int port,Board brd){
+        this.board = brd;
         this.PORT = port;
+        this.rowSize = brd.getRowSize();
     }
 
     public void initServer() throws IOException {
@@ -69,22 +75,77 @@ public class HostServer {
         // wait until the client sends a character
         char in_char = (char) isr.read();
         switch(in_char){
-          case 'u':   System.out.println("Read UP"); // UP
-                      break;
-          case 'd':   System.out.println("Read DOWN"); // DOWN
-                      break;
-          case 'l':   System.out.println("Read LEFT"); // LEFT
-                      break;
-          case 'r':   System.out.println("Read RIGHT"); // RIGHT
-                      break;
-          case 'b':   System.out.println("Read BOMB"); // BOMB
-                      break;
-          default:    System.out.println("Error in Server Read");
-                      return;
+          case 'u':     System.out.println("Read UP"); // UP
+                        moveUp();
+                        break;
+          case 'd':     System.out.println("Read DOWN"); // DOWN
+                        moveDown();
+                        break;
+          case 'l':     System.out.println("Read LEFT"); // LEFT
+                        moveLeft();
+                        break;
+          case 'r':     System.out.println("Read RIGHT"); // RIGHT
+                        moveRight();
+                        break;
+          case 'b':     System.out.println("Read BOMB"); // BOMB
+                        setBomb();
+                        break;
+          default:      System.out.println("Error in Server Read");
+                        return;
         }
       }catch(IOException e){
          e.printStackTrace();
       }
     }
 
+    public void moveDown(){
+        int currentIndex = board.getPlayerIndex(2);
+        if (board.movePlayer(currentIndex, 2)) {
+            board.setPlayerIndex(currentIndex + rowSize, 2);
+            board.repaint();
+        }
+    }
+    public void moveUp(){
+        int currentIndex = board.getPlayerIndex(2);
+        if (board.movePlayer(currentIndex, 1)) {
+            board.setPlayerIndex(currentIndex - rowSize, 2);
+            board.repaint();
+        }
+    }
+    public void moveLeft(){
+        int currentIndex = board.getPlayerIndex(2);
+        if (board.movePlayer(currentIndex, 4)) {
+            board.setPlayerIndex(currentIndex - 1, 2);
+            board.repaint();
+        }
+
+    }
+    public void moveRight(){
+        int currentIndex = board.getPlayerIndex(2);
+        if (board.movePlayer(currentIndex, 3)) {
+            board.setPlayerIndex(currentIndex + 1, 2);
+            board.repaint();
+        }
+    }
+    public void setBomb(){
+        int ind = Main.gameBoard.getPlayerIndex(2);
+        Player player = Main.gameBoard.getPlayer(ind);
+        if (player.getBombCount() > 0 && !player.isDead()) {
+            board.setBomb(ind, 3);
+            player.subBomb();
+            Timer timer = new Timer();
+            timer.schedule(new replenishBombTask(2),3000);
+        }
+    }
+    public class replenishBombTask extends TimerTask{
+        private int ID;
+        public replenishBombTask(int ID){
+            this.ID = ID;
+        }
+        public void run(){
+            System.out.print("replenishBombTask:");
+            Player P = Main.gameBoard.getPlayer(Main.gameBoard.getPlayerIndex(ID));
+            P.addBomb();
+        }
+    }
 }
