@@ -1,18 +1,15 @@
 BombRun
 A two-player head-to-head challenge
-*requires 2 keyboards to play
 
-Complile: Make
-Play: 	  Run
-
-
+Complile: make
+Play: 	  make run
 
 Controls:
-Player 1:
-	Move - WASD
-	Bomb - O
-Player 2:
-	Move - Arrow Keys
-	Bomb - X
+WASD	Movement
+O	Plant Bomb
 
-Reset game with random barrels - spacebar
+To Do:
+
+Add [server transmit board to client] and [client display board]
+Clean up gui
+scale to 4 player
