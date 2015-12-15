@@ -44,10 +44,6 @@ public class HostServer {
                 is = socket_to_client.getInputStream();
                 isr = new InputStreamReader(is);
 
-                // test sending object, delete this
-                //System.out.println("writing cell...");
-                //oos.writeObject(testCell);
-                readMoveFromClient();
                 readMoveFromClient();
                 Board testBoard = new Board(7);
                 sendBoardtoClient(testBoard);

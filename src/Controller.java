@@ -10,10 +10,12 @@ import java.util.Timer;
 public class Controller implements java.io.Serializable{
     private Board board;
     private int rowSize;
+    private int player_number;
 
-    public Controller() {
+    public Controller(int num) {
         this.board = Main.gameBoard;
         this.rowSize = board.getRowSize();
+        this.player_number = num;
     }
 
     // key bindings

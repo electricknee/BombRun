@@ -52,7 +52,7 @@ public class Main {
 
 
         //frame.getJMenuBar().add(button);
-        Controller myController = new Controller();
+        Controller myController = new Controller(1);
         myController.addKeyBindings();
 
         // Temporary Barrels

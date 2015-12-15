@@ -36,17 +36,17 @@ public class Client {
             //Cell recvCell;
             System.out.println("connecting to server...");
             socket_to_server = new Socket("localhost", PORT);
-            // read objects in
+            // read objects in prep
             System.out.println("connected!");
             is = socket_to_server.getInputStream();
             ois = new ObjectInputStream(is);
 
-            // send movements out
+            // send movements out prep
             os = socket_to_server.getOutputStream();
 
+            // testing
             System.out.println("sending movement to server...");
             sendMoveToServer(movement.UP);
-            sendMoveToServer(movement.BOMB);
             Board recvBoard;
             recvBoard = getBoardfromServer();
             System.out.println(recvBoard.boardSize);
@@ -57,15 +57,15 @@ public class Client {
     }
 
     public Board getBoardfromServer() throws ClassNotFoundException, IOException{
-      try{
-          System.out.println("Waiting to recieve Board...");
-          tempBoard = (Board) ois.readObject();
-          System.out.println("Returning Board from function");
-          return tempBoard;
-      }catch(ClassNotFoundException ex){
-        System.out.println("ClassNotFound Exception");
-      }
-      return tempBoard;
+        try{
+            System.out.println("Waiting to recieve Board...");
+            tempBoard = (Board) ois.readObject();
+            System.out.println("Returning Board from function");
+            return tempBoard;
+        }catch(ClassNotFoundException ex){
+          System.out.println("ClassNotFound Exception");
+        }
+        return tempBoard;
     }
     // Call this from Controller Class to send moves recieved from keyboard
     public void sendMoveToServer(movement m) throws IOException{
