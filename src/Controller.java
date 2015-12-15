@@ -14,12 +14,11 @@ public class Controller implements java.io.Serializable{
     private int rowSize;
     private int player_number;
     private Client client;
+    private BoardController boardController;
 
     public Controller(int num, Client cl) { // client controller
         System.out.println("Creating Client controller");
         this.board = Main.gameBoard;
-        //this.rowSize = board.getRowSize();
-        //this.player_number = num;
         this.client = cl;
         System.out.println("ex");
     }
@@ -29,6 +28,7 @@ public class Controller implements java.io.Serializable{
         this.board = Main.gameBoard;
         this.rowSize = board.getRowSize();
         this.player_number = num;
+        this.boardController = new BoardController(this.board);
     }
 /*----------------------------------------------------------------------------*/
     public void addKeyBindings() {
@@ -50,13 +50,9 @@ public class Controller implements java.io.Serializable{
         comp.getActionMap().put("down1", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 if(player_number==1){ // server player
-                  int target_index = board.getPlayerIndex(1);
-                  if (board.movePlayer(target_index, 2)) {
-                      board.setPlayerIndex(target_index + rowSize, 1);
-                      board.repaint();
-                  }
+                    boardController.playerAction(1,BoardController.movement.DOWN);
                 }
-                else{
+                else{   // send to server
                   try{
                       client.sendMoveToServer(Client.movement.DOWN);
                     }catch(IOException e){
@@ -68,11 +64,7 @@ public class Controller implements java.io.Serializable{
         comp.getActionMap().put("up1", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
               if(player_number==1){ // server player
-                int target_index = board.getPlayerIndex(1);
-                  if (board.movePlayer(target_index, 1)) {
-                      board.setPlayerIndex(target_index - rowSize, 1);
-                      board.repaint();
-                  }
+                boardController.playerAction(1,BoardController.movement.UP);
               }
               else{
                 try{
@@ -86,11 +78,7 @@ public class Controller implements java.io.Serializable{
         comp.getActionMap().put("left1", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 if(player_number==1){ // server player
-                    int target_index = board.getPlayerIndex(1);
-                    if (board.movePlayer(target_index, 4)) {
-                        board.setPlayerIndex(target_index - 1, 1);
-                        board.repaint();
-                    }
+                    boardController.playerAction(1,BoardController.movement.LEFT);
                 }
                 else{
                   try{
@@ -104,11 +92,7 @@ public class Controller implements java.io.Serializable{
         comp.getActionMap().put("right1", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
               if(player_number==1){ // server player
-                int target_index = board.getPlayerIndex(1);
-                    if (board.movePlayer(target_index, 3)) {
-                        board.setPlayerIndex(target_index + 1, 1);
-                        board.repaint();
-                    }
+                  boardController.playerAction(1,BoardController.movement.RIGHT);
                 }
                 else{
                   try{
@@ -122,14 +106,7 @@ public class Controller implements java.io.Serializable{
         comp.getActionMap().put("bomb1", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
                 if(player_number==1){ // server player
-                      int ind = Main.gameBoard.getPlayerIndex(1);
-                      Player player = Main.gameBoard.getPlayer(ind);
-                      if (player.getBombCount() > 0 && !player.isDead()) {
-                          board.setBomb(ind, 3);
-                          player.subBomb();
-                          Timer timer = new Timer();
-                          timer.schedule(new replenishBombTask(1),3000);
-                      }
+                    boardController.playerAction(1,BoardController.movement.BOMB);
                 }
                 else{
                   try{
@@ -141,15 +118,5 @@ public class Controller implements java.io.Serializable{
             }
         });
 
-    }
-    public class replenishBombTask extends TimerTask{
-        private int ID;
-        public replenishBombTask(int ID){
-            this.ID = ID;
-        }
-        public void run(){
-            Player P = Main.gameBoard.getPlayer(Main.gameBoard.getPlayerIndex(ID));
-            P.addBomb();
-        }
     }
 }

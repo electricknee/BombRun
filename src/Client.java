@@ -45,14 +45,6 @@ public class Client {
             // send movements out prep
             os = socket_to_server.getOutputStream();
 
-            // testing
-            /*
-            System.out.println("sending movement to server...");
-            sendMoveToServer(movement.UP);
-            Board recvBoard;
-            recvBoard = getBoardfromServer();
-            System.out.println(recvBoard.boardSize);
-            */
         } catch(IOException e){
           e.printStackTrace();
       } //catch(IOException | ClassNotFoundException e){ use this
@@ -73,18 +65,23 @@ public class Client {
     public void sendMoveToServer(movement m) throws IOException{
         char send_digit;
         switch(m){
-          case UP:    send_digit = 'u'; // UP
-                      break;
-          case DOWN:  send_digit = 'd'; // DOWN
-                      break;
-          case LEFT:  send_digit = 'l'; // LEFT
-                      break;
-          case RIGHT: send_digit = 'r'; // RIGHT
-                      break;
-          case BOMB:  send_digit = 'b'; // BOMB
-                      break;
-          default:    System.out.println("Error in Client");
-                      return;
+          case UP:      send_digit = 'u'; // UP
+                        System.out.println("Sending UP");
+                        break;
+          case DOWN:    send_digit = 'd'; // DOWN
+                        System.out.println("Sending DOWN");
+                        break;
+          case LEFT:    send_digit = 'l'; // LEFT
+                        System.out.println("Sending LEFT");
+                        break;
+          case RIGHT:   send_digit = 'r'; // RIGHT
+                        System.out.println("Sending RIGHT");
+                        break;
+          case BOMB:    send_digit = 'b'; // BOMB
+                        System.out.println("Sending BOMB");
+                        break;
+          default:      System.out.println("Error in Client");
+                        return;
         }
         // Socket to client has already been created
         try{

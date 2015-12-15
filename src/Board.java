@@ -16,6 +16,11 @@ public class Board extends JComponent implements java.io.Serializable{
     private int player1Index=0;
     private int player2Index=0;
 //-------------------------------------------------------------------------------------
+    public void printPlayers(){
+        System.out.println("Player indexes");
+        System.out.println(player1Index);
+        System.out.println(player2Index);
+    }
     public void printBoard(){
         System.out.println("Board Printing");
         for(int i=0;i<boardSize;i++){
