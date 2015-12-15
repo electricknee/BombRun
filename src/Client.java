@@ -19,6 +19,7 @@ public class Client {
     int PORT;
     String serverAddr;
     Socket socket_to_server; // use for reading and writing
+    Board tempBoard;
     //input
     InputStream is;
     ObjectInputStream ois;
@@ -28,6 +29,43 @@ public class Client {
     public Client(int port){
       this.PORT = port;
 
+    }
+
+    public void connectToServer() throws IOException, ClassNotFoundException{
+        try{
+            //Cell recvCell;
+            System.out.println("connecting to server...");
+            socket_to_server = new Socket("localhost", PORT);
+            // read objects in
+            System.out.println("connected!");
+            is = socket_to_server.getInputStream();
+            ois = new ObjectInputStream(is);
+
+            // send movements out
+            os = socket_to_server.getOutputStream();
+
+            System.out.println("sending movement to server...");
+            sendMoveToServer(movement.UP);
+            sendMoveToServer(movement.BOMB);
+            Board recvBoard;
+            recvBoard = getBoardfromServer();
+            System.out.println(recvBoard.boardSize);
+
+        } catch(IOException | ClassNotFoundException e){
+          e.printStackTrace();
+        }
+    }
+
+    public Board getBoardfromServer() throws ClassNotFoundException, IOException{
+      try{
+          System.out.println("Waiting to recieve Board...");
+          tempBoard = (Board) ois.readObject();
+          System.out.println("Returning Board from function");
+          return tempBoard;
+      }catch(ClassNotFoundException ex){
+        System.out.println("ClassNotFound Exception");
+      }
+      return tempBoard;
     }
     // Call this from Controller Class to send moves recieved from keyboard
     public void sendMoveToServer(movement m) throws IOException{
@@ -53,40 +91,10 @@ public class Client {
             os.write(send_digit);
             os.flush();
         }catch(IOException e){
-          System.out.println("IOException- While while sending");
+          System.out.println("IOException- while sending movement");
         }
     }
 
-    public void connectToServer() throws IOException{
-        try{
-            Cell recvCell;
-            System.out.println("connecting to server...");
-            socket_to_server = new Socket("localhost", PORT);
-            // read objects in
-            System.out.println("connected!");
-            is = socket_to_server.getInputStream();
-            ois = new ObjectInputStream(is);
 
-            // send movements out
-            os = socket_to_server.getOutputStream();
-
-            System.out.println("sending movement to server...");
-            sendMoveToServer(movement.UP);
-            sendMoveToServer(movement.BOMB);
-            /*    TEMPORARY SEND OBJECT
-            try{
-              recvCell = (Cell) ois.readObject();
-              recvCell.print();
-
-
-            }catch(ClassNotFoundException ex){
-              System.out.println("ClassNotFound");
-            }
-            */
-
-        } catch(IOException e){
-          System.out.println("IOException- Connection Lost");
-        }
-    }
 
 }

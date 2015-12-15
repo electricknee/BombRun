@@ -4,7 +4,7 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Bomb {
+public class Bomb implements java.io.Serializable{
     Timer timer;
     private int bombIndex;
 

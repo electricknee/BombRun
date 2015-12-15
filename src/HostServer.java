@@ -12,11 +12,15 @@ import java.io.InputStreamReader;
  * Created by zakary on 12/13/15.
  */
 public class HostServer {
+    //construct server with port
+    //call server.initServer
+
     int PORT;
     Socket socket_to_client;
+    // send objects out
     OutputStream os;
     ObjectOutputStream oos;
-
+    // recieve movements
     InputStream is;
     InputStreamReader isr;
 
@@ -24,7 +28,7 @@ public class HostServer {
         this.PORT = port;
     }
 
-    public void runServer() throws IOException {
+    public void initServer() throws IOException {
         ServerSocket listener = new ServerSocket(PORT);
         try{
 
@@ -45,10 +49,21 @@ public class HostServer {
                 //oos.writeObject(testCell);
                 readMoveFromClient();
                 readMoveFromClient();
+                Board testBoard = new Board(7);
+                sendBoardtoClient(testBoard);
 
         }catch(IOException e){
           System.out.println("IOException");
         }
+    }
+
+    public void sendBoardtoClient(Board board) throws IOException{
+      try{
+          System.out.println("trying to send board to client");
+          oos.writeObject(board);
+      }catch(IOException e){
+          System.out.println("IOException- while sending board");
+      }
     }
 
     //alter to accomodate for multiple clients

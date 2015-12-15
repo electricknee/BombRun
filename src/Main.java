@@ -12,7 +12,7 @@ public class Main {
 
     public static Board gameBoard;
 
-    public static void main(String [ ] args) throws IOException{
+    public static void main(String [ ] args) throws IOException, ClassNotFoundException{
 
         boolean server=false;
         System.out.println("Enter (1)server or (2)client");
@@ -69,7 +69,7 @@ public class Main {
 
         if(server){
             HostServer hostServer = new HostServer(9998);
-            hostServer.runServer();
+            hostServer.initServer();
         } else{
             Client client = new Client(9998);
             client.connectToServer();

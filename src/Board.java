@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Board extends JComponent {
+public class Board extends JComponent implements java.io.Serializable{
 
     public int rowSize = 20;
     public int boardSize = rowSize*rowSize;

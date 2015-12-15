@@ -7,7 +7,7 @@ import java.util.Timer;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Controller {
+public class Controller implements java.io.Serializable{
     private Board board;
     private int rowSize;
 
@@ -91,7 +91,7 @@ public class Controller {
 
             }
         });
-        //---------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------
         comp.getActionMap().put("down2", new AbstractAction() {
             public void actionPerformed(ActionEvent event) {
 
