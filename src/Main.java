@@ -76,7 +76,7 @@ public class Main {
             }
         } else{
             client = new Client(9998); // client used to send moves to Server
-            client.connectToServer();
+            client.connectToServer("2601:86:c100:9ef0:564:8f1c:842b:67d9");
             System.out.println("creating controller");
             Controller myController = new Controller(2,client);
             System.out.println("adding keybindings for client");
