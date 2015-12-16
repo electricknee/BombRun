@@ -16,7 +16,7 @@ import java.util.Timer;
 public class HostServer {
     //construct server with port
     //call server.initServer
-
+    private BoardController boardController;
     int PORT;
     Board board;
     int rowSize;
@@ -32,6 +32,7 @@ public class HostServer {
         this.board = brd;
         this.PORT = port;
         this.rowSize = brd.getRowSize();
+        this.boardController = new BoardController(this.board);
     }
 
     public void initServer() throws IOException {
@@ -42,18 +43,13 @@ public class HostServer {
                 socket_to_client = listener.accept();
                 System.out.println("found client");
 
-
-                // send out board -> make sure board is Serializable
+                // send out board
                 os = socket_to_client.getOutputStream();
                 oos = new ObjectOutputStream(os);
                 // read movements in
                 is = socket_to_client.getInputStream();
                 isr = new InputStreamReader(is);
-                /* //Testing
-                readMoveFromClient();
-                Board testBoard = new Board(7);
-                sendBoardtoClient(testBoard);
-                */
+
         }catch(IOException e){
            e.printStackTrace();
         }
@@ -75,20 +71,20 @@ public class HostServer {
         // wait until the client sends a character
         char in_char = (char) isr.read();
         switch(in_char){
-          case 'u':     System.out.println("Read UP"); // UP
-                        moveUp();
+          case 'u':     System.out.println("Read UP, moving player 2"); // UP
+                        boardController.playerAction(2,BoardController.movement.UP);
                         break;
-          case 'd':     System.out.println("Read DOWN"); // DOWN
-                        moveDown();
+          case 'd':     System.out.println("Read DOWN, moving player 2"); // DOWN
+                        boardController.playerAction(2,BoardController.movement.DOWN);
                         break;
-          case 'l':     System.out.println("Read LEFT"); // LEFT
-                        moveLeft();
+          case 'l':     System.out.println("Read LEFT, moving player 2"); // LEFT
+                        boardController.playerAction(2,BoardController.movement.LEFT);
                         break;
-          case 'r':     System.out.println("Read RIGHT"); // RIGHT
-                        moveRight();
+          case 'r':     System.out.println("Read RIGHT, moving player 2"); // RIGHT
+                        boardController.playerAction(2,BoardController.movement.RIGHT);
                         break;
-          case 'b':     System.out.println("Read BOMB"); // BOMB
-                        setBomb();
+          case 'b':     System.out.println("Read BOMB, p2"); // BOMB
+                        boardController.playerAction(2,BoardController.movement.BOMB);
                         break;
           default:      System.out.println("Error in Server Read");
                         return;
@@ -98,54 +94,4 @@ public class HostServer {
       }
     }
 
-    public void moveDown(){
-        int currentIndex = board.getPlayerIndex(2);
-        if (board.movePlayer(currentIndex, 2)) {
-            board.setPlayerIndex(currentIndex + rowSize, 2);
-            board.repaint();
-        }
-    }
-    public void moveUp(){
-        int currentIndex = board.getPlayerIndex(2);
-        if (board.movePlayer(currentIndex, 1)) {
-            board.setPlayerIndex(currentIndex - rowSize, 2);
-            board.repaint();
-        }
-    }
-    public void moveLeft(){
-        int currentIndex = board.getPlayerIndex(2);
-        if (board.movePlayer(currentIndex, 4)) {
-            board.setPlayerIndex(currentIndex - 1, 2);
-            board.repaint();
-        }
-
-    }
-    public void moveRight(){
-        int currentIndex = board.getPlayerIndex(2);
-        if (board.movePlayer(currentIndex, 3)) {
-            board.setPlayerIndex(currentIndex + 1, 2);
-            board.repaint();
-        }
-    }
-    public void setBomb(){
-        int ind = Main.gameBoard.getPlayerIndex(2);
-        Player player = Main.gameBoard.getPlayer(ind);
-        if (player.getBombCount() > 0 && !player.isDead()) {
-            board.setBomb(ind, 3);
-            player.subBomb();
-            Timer timer = new Timer();
-            timer.schedule(new replenishBombTask(2),3000);
-        }
-    }
-    public class replenishBombTask extends TimerTask{
-        private int ID;
-        public replenishBombTask(int ID){
-            this.ID = ID;
-        }
-        public void run(){
-            System.out.print("replenishBombTask:");
-            Player P = Main.gameBoard.getPlayer(Main.gameBoard.getPlayerIndex(ID));
-            P.addBomb();
-        }
-    }
 }
