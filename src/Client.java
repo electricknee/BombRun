@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.lang.ClassNotFoundException;
 import java.io.Writer;
 import java.io.OutputStream;
+import java.net.InetAddress;
 /**
  * Created by zakary on 12/13/15.
  */
@@ -21,6 +22,7 @@ public class Client {
     String serverAddr;
     Socket socket_to_server; // use for reading and writing
     Board tempBoard;
+    InetAddress addr;
     //input
     InputStream is;
     ObjectInputStream ois;
@@ -31,12 +33,13 @@ public class Client {
       this.PORT = port;
 
     }
-
-    public void connectToServer() throws IOException, ClassNotFoundException{
+    // "2601:86:c100:9ef0:dcb:7f20:3fd6:3e2"
+    public void connectToServer(String ip_string) throws IOException, ClassNotFoundException{
         try{
+            addr = InetAddress.getByName(ip_string);
             //Cell recvCell;
             System.out.println("connecting to server...");
-            socket_to_server = new Socket("localhost", PORT);
+            socket_to_server = new Socket(addr, PORT);
             // read objects in prep
             System.out.println("connected!");
             is = socket_to_server.getInputStream();
