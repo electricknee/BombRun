@@ -16,8 +16,8 @@ public class BoardController implements java.io.Serializable{
     }
 
     public void playerAction(int playerID, movement m ){
-        System.out.print("Called playerAction\nPlayerID\n");
-        System.out.print(playerID); System.out.print("\n");
+        //System.out.print("Called playerAction\nPlayerID\n");
+        //System.out.print(playerID); System.out.print("\n");
 
         int currentIndex = board.getPlayerIndex(playerID);
         switch (m){

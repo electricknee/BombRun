@@ -37,9 +37,10 @@ public class Client {
     public void connectToServer(String ip_string) throws IOException, ClassNotFoundException{
         try{
             addr = InetAddress.getByName(ip_string);
+            String TEMP_LOCAL_HOST_STRING = "localhost";
             //Cell recvCell;
             System.out.println("connecting to server...");
-            socket_to_server = new Socket(addr, PORT);
+            socket_to_server = new Socket(TEMP_LOCAL_HOST_STRING, PORT);
             // read objects in prep
             System.out.println("connected!");
             is = socket_to_server.getInputStream();
@@ -69,19 +70,19 @@ public class Client {
         char send_digit;
         switch(m){
           case UP:      send_digit = 'u'; // UP
-                        System.out.println("Sending UP");
+                        //System.out.println("Sending UP");
                         break;
           case DOWN:    send_digit = 'd'; // DOWN
-                        System.out.println("Sending DOWN");
+                        //System.out.println("Sending DOWN");
                         break;
           case LEFT:    send_digit = 'l'; // LEFT
-                        System.out.println("Sending LEFT");
+                        //System.out.println("Sending LEFT");
                         break;
           case RIGHT:   send_digit = 'r'; // RIGHT
-                        System.out.println("Sending RIGHT");
+                        //System.out.println("Sending RIGHT");
                         break;
           case BOMB:    send_digit = 'b'; // BOMB
-                        System.out.println("Sending BOMB");
+                        //System.out.println("Sending BOMB");
                         break;
           default:      System.out.println("Error in Client");
                         return;

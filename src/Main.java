@@ -23,11 +23,11 @@ public class Main {
 
         if(result == 1){
             server = true;
-            System.out.println("Starting Server");
+            //System.out.println("Starting Server");
         }
         else if(result == 2){
             server = false;
-            System.out.println("Starting Client");
+            //System.out.println("Starting Client");
         }
         else{
             System.out.println("Input Error");
@@ -77,9 +77,9 @@ public class Main {
         } else{
             client = new Client(9998); // client used to send moves to Server
             client.connectToServer("2601:86:c100:9ef0:564:8f1c:842b:67d9");
-            System.out.println("creating controller");
+            //System.out.println("creating controller");
             Controller myController = new Controller(2,client);
-            System.out.println("adding keybindings for client");
+            //System.out.println("adding keybindings for client");
             myController.addKeyBindings();
         }
 

@@ -71,19 +71,19 @@ public class HostServer {
         // wait until the client sends a character
         char in_char = (char) isr.read();
         switch(in_char){
-          case 'u':     System.out.println("Read UP, moving player 2"); // UP
+          case 'u':     //System.out.println("Read UP, moving player 2"); // UP
                         boardController.playerAction(2,BoardController.movement.UP);
                         break;
-          case 'd':     System.out.println("Read DOWN, moving player 2"); // DOWN
+          case 'd':     //System.out.println("Read DOWN, moving player 2"); // DOWN
                         boardController.playerAction(2,BoardController.movement.DOWN);
                         break;
-          case 'l':     System.out.println("Read LEFT, moving player 2"); // LEFT
+          case 'l':     //System.out.println("Read LEFT, moving player 2"); // LEFT
                         boardController.playerAction(2,BoardController.movement.LEFT);
                         break;
-          case 'r':     System.out.println("Read RIGHT, moving player 2"); // RIGHT
+          case 'r':     //System.out.println("Read RIGHT, moving player 2"); // RIGHT
                         boardController.playerAction(2,BoardController.movement.RIGHT);
                         break;
-          case 'b':     System.out.println("Read BOMB, p2"); // BOMB
+          case 'b':     //System.out.println("Read BOMB, p2"); // BOMB
                         boardController.playerAction(2,BoardController.movement.BOMB);
                         break;
           default:      System.out.println("Error in Server Read");
