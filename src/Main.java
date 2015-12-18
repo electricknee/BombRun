@@ -23,19 +23,22 @@ public class Main {
 
         if(result == 1){
             server = true;
-            //System.out.println("Starting Server");
         }
         else if(result == 2){
             server = false;
-            //System.out.println("Starting Client");
         }
         else{
             System.out.println("Input Error");
         }
 
+        boolean barrels = true;
+        if(!server){
+            barrels = false;
+        }
+
         BoardFrame frame = new BoardFrame(800);
         frame.setLayout(new BorderLayout());
-        gameBoard = new Board(11);
+        gameBoard = new Board(11,barrels);
         frame.add(BorderLayout.CENTER,gameBoard);
 
         if(server){/*--------------------------------------SERVER-------------*/
@@ -45,44 +48,59 @@ public class Main {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     System.out.println("pressed reset");
-                    //gameBoard.printBoard();
-                    gameBoard.ResetBoard();
+                    gameBoard.ResetBoard(true);
                 }
             });
 
             frame.add(BorderLayout.SOUTH,button);
-
+            /*
             // Temporary Barrels
            for(int x=0;x<10;x=x+2)
                 for (int i = 1;i<=5;i++)
                     gameBoard.blockCell((10 + i*2)+11*x);
             // end temp
-
+            */
             gameBoard.addPlayer(0, new Player(1));
             gameBoard.addPlayer(gameBoard.boardSize-1, new Player(2));
             gameBoard.repaint();
 
             frame.setVisible(true);
         }/*-------------------------------------------------------------------*/
+
         Client client;
         HostServer hostServer;
-        if(server){
+        Controller myController;
+
+        if(server){/*--------------------------------------SERVER-------------*/
             hostServer = new HostServer(9998,gameBoard);
             hostServer.initServer();
-            Controller myController = new Controller(1);
+            myController = new Controller(1);
             myController.addKeyBindings();
+            hostServer.sendBoardtoClient(gameBoard);
+            System.out.println("Board Sent!");
             while(true){
                 hostServer.readMoveFromClient();
             }
-        } else{
+        } else{/*--------------------------------------CLIENT-----------------*/
             client = new Client(9998); // client used to send moves to Server
             client.connectToServer("2601:86:c100:9ef0:564:8f1c:842b:67d9");
-            //System.out.println("creating controller");
-            Controller myController = new Controller(2,client);
-            //System.out.println("adding keybindings for client");
+            myController = new Controller(2,client);
             myController.addKeyBindings();
-        }
 
+            gameBoard = client.getBoardfromServer(); // works
+
+            //frame.removeAll();
+            System.out.println("Board Sent");
+            //frame.add(BorderLayout.CENTER,gameBoard);
+            //frame.setVisible(true);
+            //while(true){
+
+            //}
+        }
+        /*
+            Trying to make the board appear in the client here but it doesn't
+            hasn't been able to update at all or change since it is set at first...
+        */
 
 
     }

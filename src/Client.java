@@ -34,7 +34,8 @@ public class Client {
 
     }
     // "2601:86:c100:9ef0:dcb:7f20:3fd6:3e2"
-    public void connectToServer(String ip_string) throws IOException, ClassNotFoundException{
+    public void connectToServer(String ip_string)
+        throws IOException, ClassNotFoundException{
         try{
             addr = InetAddress.getByName(ip_string);
             String TEMP_LOCAL_HOST_STRING = "localhost";
