@@ -17,7 +17,7 @@ public class Client {
     public enum movement{
       UP, DOWN, LEFT, RIGHT, BOMB
     }
-
+    int update_count = 0;
     int PORT;
     String serverAddr;
     Socket socket_to_server; // use for reading and writing
@@ -57,12 +57,16 @@ public class Client {
 
     public Board getBoardfromServer() throws ClassNotFoundException, IOException{
         try{
-            System.out.println("Waiting to recieve Board...");
+
+            //System.out.println("Waiting to recieve Board...");
             tempBoard = (Board) ois.readObject();
-            System.out.println("Returning Board from function");
+            System.out.println("getBoardfromServer Function:");
+            //tempBoard.printBoard();
+            System.out.printf("Recieved board with update count %d",update_count);
+            update_count++;
             return tempBoard;
         }catch(ClassNotFoundException ex){
-          System.out.println("ClassNotFound Exception");
+            ex.printStackTrace();
         }
         return tempBoard;
     }
@@ -71,26 +75,20 @@ public class Client {
         char send_digit;
         switch(m){
           case UP:      send_digit = 'u'; // UP
-                        //System.out.println("Sending UP");
                         break;
           case DOWN:    send_digit = 'd'; // DOWN
-                        //System.out.println("Sending DOWN");
                         break;
           case LEFT:    send_digit = 'l'; // LEFT
-                        //System.out.println("Sending LEFT");
                         break;
           case RIGHT:   send_digit = 'r'; // RIGHT
-                        //System.out.println("Sending RIGHT");
                         break;
           case BOMB:    send_digit = 'b'; // BOMB
-                        //System.out.println("Sending BOMB");
                         break;
           default:      System.out.println("Error in Client");
                         return;
         }
         // Socket to client has already been created
         try{
-            //System.out.println("writing to output stream");
             os.write(send_digit);
             os.flush();
         }catch(IOException e){

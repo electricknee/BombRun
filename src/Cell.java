@@ -18,7 +18,7 @@ public class Cell implements java.io.Serializable{
     private int firecount=0;
     private boolean barrel=false;
 
-    //-------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     public Cell(int x, int y){
 
         this.row = x;

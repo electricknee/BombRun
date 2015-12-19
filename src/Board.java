@@ -94,7 +94,7 @@ public class Board extends JComponent implements java.io.Serializable{
     }
 
     public void paint(Graphics g){
-        System.out.println("Repainting Board");
+        //System.out.println("Repainting Board");
         int row=1;
         int x=1;
         for (int col=x; x<boardSize+1; x++){
