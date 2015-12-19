@@ -5,18 +5,23 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.*;
 
+// should work with IPv4 and IPv6 addresses: colons and periods
+
 /**
  * Created by zakary on 6/28/15.
  */
 public class Main {
 
     public static Board gameBoard;
+    private static final String HOST_IP_STRING =
+        "2601:86:c100:9ef0:564:8f1c:842b:67d9";
+
 
     public static void main(String [ ] args)
         throws IOException, ClassNotFoundException{
 
         boolean server = false;
-        System.out.println("Enter (1)server or (2)client");
+        System.out.println("Enter (1)Server or (2)Client");
         InputStreamReader in = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(in);
         int result = Integer.parseInt( br.readLine() );
@@ -29,6 +34,7 @@ public class Main {
         }
         else{
             System.out.println("Input Error");
+            return;
         }
 
         boolean barrels = true;
@@ -42,6 +48,7 @@ public class Main {
         frame.add(BorderLayout.CENTER,gameBoard);
 
         if(server){/*--------------------------------------SERVER-------------*/
+
             JButton button = new JButton("RESET GAME");
             button.addActionListener(new ActionListener()
             {
@@ -72,6 +79,7 @@ public class Main {
         Controller myController;
 
         if(server){/*--------------------------------------SERVER-------------*/
+
             hostServer = new HostServer(9998,gameBoard);
             hostServer.initServer();
             myController = new Controller(1);
@@ -82,21 +90,31 @@ public class Main {
                 hostServer.readMoveFromClient();
             }
         } else{/*--------------------------------------CLIENT-----------------*/
+
             client = new Client(9998); // client used to send moves to Server
-            client.connectToServer("2601:86:c100:9ef0:564:8f1c:842b:67d9");
+            client.connectToServer(HOST_IP_STRING);
             myController = new Controller(2,client);
             myController.addKeyBindings();
 
-            gameBoard = client.getBoardfromServer(); // works
 
+            Board updated_gameBoard = client.getBoardfromServer(); // works
+
+            Board.copyBoard(gameBoard,updated_gameBoard);
+            gameBoard.repaint();
+/*
+            frame.invalidate();
+            frame.revalidate();
+            gameBoard.repaint();
+            gameBoard.setVisible(false);
+            gameBoard.setVisible(true);
+            gameBoard.repaint();
+            gameBoard.printBoard();
             //frame.removeAll();
-            System.out.println("Board Sent");
-            //frame.add(BorderLayout.CENTER,gameBoard);
+*/
+            System.out.println("Board Recieved and set");
             //frame.setVisible(true);
-            //while(true){
 
-            //}
-        }
+            }
         /*
             Trying to make the board appear in the client here but it doesn't
             hasn't been able to update at all or change since it is set at first...

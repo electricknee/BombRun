@@ -21,6 +21,16 @@ public class Board extends JComponent implements java.io.Serializable{
         System.out.println(player1Index);
         System.out.println(player2Index);
     }
+    public static void copyBoard(Board newBoard, Board oldBoard){
+        if(oldBoard.rowSize != newBoard.rowSize){
+            System.out.println("Board Mismatch Error\n");
+            return;
+        }
+        for(int i=0 ; i<oldBoard.boardSize ; i++ ){
+            Cell.copyCell(newBoard.boardCells[i],oldBoard.boardCells[i]);
+        }
+    }
+
     public void printBoard(){
         System.out.println("Board Printing");
         for(int i=0;i<boardSize;i++){
@@ -84,7 +94,7 @@ public class Board extends JComponent implements java.io.Serializable{
     }
 
     public void paint(Graphics g){
-
+        System.out.println("Repainting Board");
         int row=1;
         int x=1;
         for (int col=x; x<boardSize+1; x++){
@@ -161,11 +171,11 @@ public class Board extends JComponent implements java.io.Serializable{
     public void removePlayer(int index){
         boardCells[index].removePlayer();
     }
-    public boolean movePlayer(int oldIndex,int dir) {
+    public boolean movePlayer(int oldIndex,int direction) {
         if(boardCells[oldIndex].getPlayer().isDead()) return false;
         int newIndex = 0;
 
-        switch (dir) {
+        switch (direction) {
             case 1:
                 if (oldIndex < rowSize) return false;
                 else {

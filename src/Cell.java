@@ -24,6 +24,45 @@ public class Cell implements java.io.Serializable{
         this.row = x;
         this.column = y;
     }
+    /* Copy old cell into new cell, for display in the client*/
+    public static void copyCell(Cell newCell, Cell oldCell){
+        if(oldCell.hasBomb()){
+            newCell.setBomb();
+        }else{
+            newCell.clearBomb();
+        }
+
+        if(oldCell.isBlocked()){
+            newCell.setBlocked(true);
+        }else{
+            newCell.setBlocked(false);
+        }
+
+        if(oldCell.hasPlayer()){
+            newCell.addPlayer(oldCell.getPlayer());
+        }else{
+            newCell.removePlayer();
+        }
+
+        if(oldCell.hasFire()){
+            newCell.setFire(true);
+        }else{
+            newCell.setFire(false);
+        }
+
+        if(oldCell.hasOrangeFire()){
+            newCell.setOrangeFire(true);
+        }else{
+            newCell.setOrangeFire(false);
+        }
+
+        if(oldCell.hasBarrel()){
+            newCell.addBarrel();
+        }else{
+            newCell.removeBarrel();
+        }
+    }
+
     public void print(){
       System.out.print("cell location\nx = ");
       System.out.println(row);
@@ -32,6 +71,9 @@ public class Cell implements java.io.Serializable{
     }
     public void setBomb(int index, int time){
         this.bomb = new Bomb(index,time);
+    }
+    public void setBomb(){
+        this.bomb = new Bomb();
     }
     public void clearBomb(){
         this.bomb = null;
@@ -47,7 +89,11 @@ public class Cell implements java.io.Serializable{
         return this.block;
     }
     public boolean isObstructed(){
-        if(this.block || this.hasBomb() || this.hasPlayer() || this.hasFire() || this.hasBarrel())
+        if(this.isBlocked()
+        || this.hasBomb()
+        || this.hasPlayer()
+        || this.hasFire()
+        || this.hasBarrel())
             return true;
         else
             return false;

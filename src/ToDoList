@@ -1,0 +1,12 @@
+TO DO
+
+- find the bug in the barrel/block creation that makes barrels and blocks occur
+    on the same square
+
+- get the client to display the board properly
+
+- Stop the Client and server from crashing if the other drops
+
+- Simplify code using the gameBoard static object
+
+- Document the use of each class in Javadoc style comments

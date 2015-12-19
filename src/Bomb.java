@@ -8,6 +8,8 @@ public class Bomb implements java.io.Serializable{
     Timer timer;
     private int bombIndex;
 
+    public Bomb(){} // for display purpose, non-explosive
+
     public Bomb(int index,int time){
         this.bombIndex = index;
         timer = new Timer();
