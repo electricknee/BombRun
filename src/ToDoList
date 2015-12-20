@@ -12,3 +12,5 @@ TO DO
 - Document the use of each class in Javadoc style comments
 
 - expand to multiple players
+
+- make boardsize private and add setter/getter

@@ -10,6 +10,8 @@ import java.io.*;
 public class Main {
 
     public static Board gameBoard;
+    public static final int RSIZE = 5;
+    public static final int BSIZE = RSIZE*RSIZE;
     // should work with IPv4 and IPv6 addresses: colons / periods
     private static final String HOST_IP_STRING =
         "2601:86:c100:9ef0:564:8f1c:842b:67d9";
@@ -17,6 +19,7 @@ public class Main {
 
     public static void main(String [] args)
         throws IOException, ClassNotFoundException{
+
 
         boolean server = false;
         System.out.println("Enter (1)Server or (2)Client");
@@ -36,15 +39,24 @@ public class Main {
         }
 
         boolean barrels = true;
-        if(!server){
+        if(!server){// only creat barrels on server
             barrels = false;
         }
 
         BoardFrame frame = new BoardFrame(800);
         frame.setLayout(new BorderLayout());
-        gameBoard = new Board(5,barrels);
+        gameBoard = new Board(RSIZE,barrels);
         frame.add(BorderLayout.CENTER,gameBoard);
 
+        // testing
+        /*
+        gameBoard.printBoard();
+        char[] Arr = new char[BSIZE];
+        BoardArray.convertBoardtoArray(gameBoard,Arr);
+        System.out.println(Arr);
+        BoardArray.writeArraytoBoard(Arr,gameBoard);
+        gameBoard.printBoard();
+        */
         if(server){/*--------------------------------------SERVER-------------*/
 
             JButton button = new JButton("RESET GAME");
@@ -82,15 +94,11 @@ public class Main {
             //System.out.println("Board Sent!");
 
             Thread constant_board_sender = new Thread(hostServer);
-
             constant_board_sender.start();
 
             while(true){
-                System.out.printf("Sending Board:\n");
-                //gameBoard.printBoard();
+                //System.out.printf("Sending Board:\n");
                 hostServer.sendBoardtoClient(gameBoard);
-
-                //System.out.println("Read move from client");
             }
         } else{/*--------------------------------------CLIENT-----------------*/
 
@@ -100,12 +108,13 @@ public class Main {
             myController.addKeyBindings();
 
             while(true){
+                System.out.println(client.getArrFromServer()); // working
                 Board temp = client.getBoardfromServer();
-                System.out.println("recieved this board:");
+                //System.out.println("recieved this board:");
                 //temp.printBoard();
                 Board.copyBoard(gameBoard,temp);
                 Main.gameBoard.repaint();
-                System.out.println("updated board");
+                //System.out.println("updated board");
                 //Main.gameBoard.printBoard();
             }
         }

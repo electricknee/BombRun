@@ -9,6 +9,7 @@ import java.lang.ClassNotFoundException;
 import java.io.Writer;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.*;
 /**
  * Created by zakary on 12/13/15.
  */
@@ -29,9 +30,19 @@ public class Client {
     //output
     OutputStream os;
 
+    //updated server
+    DatagramSocket serverSocket;
+    DatagramPacket receivePacket;
+    byte[] receiveBuf;
+
     public Client(int port){
       this.PORT = port;
-
+      receiveBuf = new byte[1024];
+      try{
+          this.serverSocket = new DatagramSocket(9999);
+      }catch(SocketException e){
+          e.printStackTrace();
+      }
     }
     // "2601:86:c100:9ef0:dcb:7f20:3fd6:3e2"
     public void connectToServer(String ip_string)
@@ -40,10 +51,10 @@ public class Client {
             addr = InetAddress.getByName(ip_string);
             String TEMP_LOCAL_HOST_STRING = "localhost";
             //Cell recvCell;
-            System.out.println("connecting to server...");
+            //System.out.println("connecting to server...");
             socket_to_server = new Socket(TEMP_LOCAL_HOST_STRING, PORT);
             // read objects in prep
-            System.out.println("connected!");
+            //System.out.println("connected!");
             is = socket_to_server.getInputStream();
             ois = new ObjectInputStream(is);
 
@@ -54,15 +65,27 @@ public class Client {
           e.printStackTrace();
       } //catch(IOException | ClassNotFoundException e){ use this
     }
+    public char[] getArrFromServer(){   // reads single packet and returns board array
+        char[] Arr = new char[Main.BSIZE];
+        DatagramPacket receivePacket = new DatagramPacket(receiveBuf,receiveBuf.length);
+        try{
+            serverSocket.receive(receivePacket);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        // recieveBuf has the data in byte array
+        String temp = new String(receiveBuf);
+        System.out.printf("getArrFromServer) String recieved: %s\n",temp);
+        return temp.toCharArray();
+    }
 
     public Board getBoardfromServer() throws ClassNotFoundException, IOException{
         try{
 
             //System.out.println("Waiting to recieve Board...");
             tempBoard = (Board) ois.readObject();
-            System.out.println("getBoardfromServer Function:");
-            //tempBoard.printBoard();
-            System.out.printf("Recieved board with update count %d",update_count);
+            //System.out.println("getBoardfromServer Function:");
+            //System.out.printf("Recieved board with update count %d",update_count);
             update_count++;
             return tempBoard;
         }catch(ClassNotFoundException ex){

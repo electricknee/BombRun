@@ -31,6 +31,10 @@ public class Board extends JComponent implements java.io.Serializable{
         }
     }
 
+    public Cell getCell(int index){
+        return boardCells[index];
+    }
+
     public void printBoard(){
         System.out.println("Board Printing");
         for(int i=0;i<boardSize;i++){
@@ -153,6 +157,7 @@ public class Board extends JComponent implements java.io.Serializable{
 
 
     }
+
     public void blockCell(int index){
         boardCells[index].setBlocked(true);
         this.repaint();

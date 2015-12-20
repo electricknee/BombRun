@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.TimerTask;
 import java.util.Timer;
+import java.net.*;
+
 /**
  * Created by zakary on 12/13/15.
  */
@@ -28,11 +30,19 @@ public class HostServer implements Runnable{
     InputStream is;
     InputStreamReader isr;
 
+    DatagramSocket clientSocket;
+    byte[] sendData = new byte[1024];
+
     public HostServer(int port,Board brd){
         this.board = brd;
         this.PORT = port;
         this.rowSize = brd.getRowSize();
         this.boardController = new BoardController(Main.gameBoard);
+        try{
+            clientSocket = new DatagramSocket();
+        }catch(SocketException e){
+            e.printStackTrace();
+        }
     }
 
     public void run(){
@@ -55,9 +65,9 @@ public class HostServer implements Runnable{
         ServerSocket listener = new ServerSocket(PORT);
         try{
 
-                System.out.println("waiting to find client");
+                //System.out.println("waiting to find client");
                 socket_to_client = listener.accept();
-                System.out.println("found client");
+                //System.out.println("found client");
 
                 // send out board
                 os = socket_to_client.getOutputStream();
@@ -66,6 +76,8 @@ public class HostServer implements Runnable{
                 is = socket_to_client.getInputStream();
                 isr = new InputStreamReader(is);
 
+
+
         }catch(IOException e){
            e.printStackTrace();
         }
@@ -73,13 +85,27 @@ public class HostServer implements Runnable{
 
     public void sendBoardtoClient(Board board) throws IOException{
       try{
-         System.out.println("sendBoardtoClient Function:");
-         Main.gameBoard.printBoard();
+         //System.out.println("sendBoardtoClient Function:");
+         //Main.gameBoard.printBoard();
           oos.writeObject(Main.gameBoard);
           oos.reset();
       }catch(IOException e){
            e.printStackTrace();
       }
+
+      // send with DatagramSocket
+
+      InetAddress addr = InetAddress.getLocalHost();
+      char[] Arr = new char[Main.BSIZE];
+      BoardArray.convertBoardtoArray(board,Arr);
+      String temp = new String(Arr);
+
+      System.out.println("Sending from Datagram Socket:");
+      System.out.print(temp+"\n");
+
+      sendData = temp.getBytes();
+      DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9999);
+      clientSocket.send(out);
     }
 
     //alter to accomodate for multiple clients
