@@ -17,14 +17,11 @@ public class Controller implements java.io.Serializable{
     private BoardController boardController;
 
     public Controller(int num, Client cl) { // client controller
-        System.out.println("Creating Client controller");
         this.board = Main.gameBoard;
         this.client = cl;
-        System.out.println("ex");
     }
 
     public Controller(int num) { // server controller
-        System.out.println("Creating Server controller");
         this.board = Main.gameBoard;
         this.rowSize = board.getRowSize();
         this.player_number = num;

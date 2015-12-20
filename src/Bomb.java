@@ -5,8 +5,10 @@ import java.util.TimerTask;
  * Created by zakary on 6/28/15.
  */
 public class Bomb implements java.io.Serializable{
-    Timer timer;
+    transient Timer timer;
     private int bombIndex;
+
+    public Bomb(){} // for display purpose, non-explosive
 
     public Bomb(int index,int time){
         this.bombIndex = index;

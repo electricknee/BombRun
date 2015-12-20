@@ -21,29 +21,43 @@ public class Board extends JComponent implements java.io.Serializable{
         System.out.println(player1Index);
         System.out.println(player2Index);
     }
+    public static void copyBoard(Board newBoard, Board oldBoard){
+        if(oldBoard.rowSize != newBoard.rowSize){
+            System.out.println("Board Mismatch Error\n");
+            return;
+        }
+        for(int i=0 ; i<oldBoard.boardSize ; i++ ){
+            Cell.copyCell(newBoard.boardCells[i],oldBoard.boardCells[i]);
+        }
+    }
+
     public void printBoard(){
         System.out.println("Board Printing");
         for(int i=0;i<boardSize;i++){
             System.out.print("[");
             System.out.print(i);
-            System.out.print("] \n");
+            System.out.print("] ");
 
             Cell cp = boardCells[i];
+            if(cp.isBlocked()){
+                System.out.print("Block ");
+            }
             if(cp.hasBomb()){
-                System.out.println("Bomb");
+                System.out.print("Bomb ");
             }
             if(cp.hasBarrel()){
-                System.out.println("Barrel");
+                System.out.print("Barrel ");
             }
             if(cp.hasPlayer()){
-                System.out.println("Player");
+                System.out.print("Player ");
             }
             if(cp.hasFire()){
-                System.out.println("Fire");
+                System.out.print("Fire ");
             }
             if(cp.hasOrangeFire()){
-                System.out.println("Orange Fire");
+                System.out.print("Orange Fire ");
             }
+            System.out.print("\n");
         }
     }
     public int getPlayerIndex(int ID){
@@ -63,7 +77,7 @@ public class Board extends JComponent implements java.io.Serializable{
     public int getRowSize(){
         return this.rowSize;
     }
-    public Board(int rs){
+    public Board(int rs,boolean withBarrels){
         this.rowSize = rs;
         this.boardSize = rs*rs;
 
@@ -76,11 +90,11 @@ public class Board extends JComponent implements java.io.Serializable{
                 count++;
             }
         }
-        ResetBoard();
+        ResetBoard(withBarrels);
     }
 
     public void paint(Graphics g){
-
+        //System.out.println("Repainting Board");
         int row=1;
         int x=1;
         for (int col=x; x<boardSize+1; x++){
@@ -157,11 +171,11 @@ public class Board extends JComponent implements java.io.Serializable{
     public void removePlayer(int index){
         boardCells[index].removePlayer();
     }
-    public boolean movePlayer(int oldIndex,int dir) {
+    public boolean movePlayer(int oldIndex,int direction) {
         if(boardCells[oldIndex].getPlayer().isDead()) return false;
         int newIndex = 0;
 
-        switch (dir) {
+        switch (direction) {
             case 1:
                 if (oldIndex < rowSize) return false;
                 else {
@@ -380,13 +394,15 @@ public class Board extends JComponent implements java.io.Serializable{
     public Player getPlayer(int index){
         return boardCells[index].getPlayer();
     }
-    public void ResetBoard(){
+    public void ResetBoard(boolean withBarrels){
         for (int x=0;x<boardSize;x++){
             boardCells[x].clearCell();
         }
         this.addPlayer(0,new Player(1));
         this.addPlayer(boardSize-1,new Player(2));
-        this.addRandomBarrels();
+        if(withBarrels){
+            this.addRandomBarrels();
+        }
         repaint();
     }
     public void addRandomBarrels(){

@@ -13,10 +13,10 @@ import java.util.Timer;
 /**
  * Created by zakary on 12/13/15.
  */
-public class HostServer {
-    //construct server with port
-    //call server.initServer
+public class HostServer implements Runnable{
+
     private BoardController boardController;
+    int update_count=0;
     int PORT;
     Board board;
     int rowSize;
@@ -32,7 +32,23 @@ public class HostServer {
         this.board = brd;
         this.PORT = port;
         this.rowSize = brd.getRowSize();
-        this.boardController = new BoardController(this.board);
+        this.boardController = new BoardController(Main.gameBoard);
+    }
+
+    public void run(){
+        while(true){
+
+            try{
+                //System.out.printf("Sending Board: (update %d)",update_count);
+                update_count++;
+                ///Main.gameBoard.printBoard();
+                readMoveFromClient();
+                //Thread.sleep(5000);
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public void initServer() throws IOException {
@@ -57,8 +73,10 @@ public class HostServer {
 
     public void sendBoardtoClient(Board board) throws IOException{
       try{
-          System.out.println("trying to send board to client");
-          oos.writeObject(board);
+         System.out.println("sendBoardtoClient Function:");
+         Main.gameBoard.printBoard();
+          oos.writeObject(Main.gameBoard);
+          oos.reset();
       }catch(IOException e){
            e.printStackTrace();
       }
@@ -69,22 +87,24 @@ public class HostServer {
       // read from client and call movement on board
       try{
         // wait until the client sends a character
+        /* maybe:
+            a - p2 up
+            b - p2 down
+            ...
+            f - p3 up
+            ...
+        */
         char in_char = (char) isr.read();
         switch(in_char){
-          case 'u':     System.out.println("Read UP, moving player 2"); // UP
-                        boardController.playerAction(2,BoardController.movement.UP);
+          case 'u':     boardController.playerAction(2,BoardController.movement.UP);
                         break;
-          case 'd':     System.out.println("Read DOWN, moving player 2"); // DOWN
-                        boardController.playerAction(2,BoardController.movement.DOWN);
+          case 'd':     boardController.playerAction(2,BoardController.movement.DOWN);
                         break;
-          case 'l':     System.out.println("Read LEFT, moving player 2"); // LEFT
-                        boardController.playerAction(2,BoardController.movement.LEFT);
+          case 'l':     boardController.playerAction(2,BoardController.movement.LEFT);
                         break;
-          case 'r':     System.out.println("Read RIGHT, moving player 2"); // RIGHT
-                        boardController.playerAction(2,BoardController.movement.RIGHT);
+          case 'r':     boardController.playerAction(2,BoardController.movement.RIGHT);
                         break;
-          case 'b':     System.out.println("Read BOMB, p2"); // BOMB
-                        boardController.playerAction(2,BoardController.movement.BOMB);
+          case 'b':     boardController.playerAction(2,BoardController.movement.BOMB);
                         break;
           default:      System.out.println("Error in Server Read");
                         return;

@@ -1,8 +1,9 @@
 import java.util.TimerTask;
 import java.util.Timer;
+import java.io.Serializable;
 
-/*  Nothing happens if an Action is not possible*/
-public class BoardController implements java.io.Serializable{
+/*  Nothing happens if an action is not possible*/
+public class BoardController implements Serializable{
 
     public enum movement{
         UP, DOWN, LEFT, RIGHT, BOMB
@@ -16,8 +17,8 @@ public class BoardController implements java.io.Serializable{
     }
 
     public void playerAction(int playerID, movement m ){
-        System.out.print("Called playerAction\nPlayerID\n");
-        System.out.print(playerID); System.out.print("\n");
+        //System.out.print("Called playerAction\nPlayerID\n");
+        //System.out.print(playerID); System.out.print("\n");
 
         int currentIndex = board.getPlayerIndex(playerID);
         switch (m){
@@ -65,7 +66,6 @@ public class BoardController implements java.io.Serializable{
             this.ID = ID;
         }
         public void run(){
-            System.out.println("<replenishBombTask>");
             Player P = Main.gameBoard.getPlayer(Main.gameBoard.getPlayerIndex(ID));
             P.addBomb();
         }
