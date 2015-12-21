@@ -1,24 +1,23 @@
 TO DO
-
+- expand to multiple players
 
 Fixes
 
-- Simplify code using the gameBoard static object
-- Document the use of each class in Javadoc style comments
+- Simplify code using the gameBoard statics
+- Document classes with comments and remove unncessary
 
-- expand to multiple players
 - make boardsize private and add setter/getter
-- resize the datagram smaller
-- test from different computers
+
+- test from different computers / set up 
 
 
 
 Optimize
-- only rePaint client when Main board is repainted
+- resize the datagram smaller
 - figure out how to print from the array, so only the server has to run the board
 
 
 Notes
 -when one bomb sets off another, there will be normal fire on the same square the
     orange fire - won't cause problems as long as drawing the orange fire has higher
-    precedence
+    precedence (same issue with player X fire)
