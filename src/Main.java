@@ -48,15 +48,6 @@ public class Main {
         gameBoard = new Board(RSIZE,barrels);
         frame.add(BorderLayout.CENTER,gameBoard);
 
-        // testing
-        /*
-        gameBoard.printBoard();
-        char[] Arr = new char[BSIZE];
-        BoardArray.convertBoardtoArray(gameBoard,Arr);
-        System.out.println(Arr);
-        BoardArray.writeArraytoBoard(Arr,gameBoard);
-        gameBoard.printBoard();
-        */
         if(server){/*--------------------------------------SERVER-------------*/
 
             JButton button = new JButton("RESET GAME");
@@ -108,7 +99,7 @@ public class Main {
             myController.addKeyBindings();
 
             while(true){
-                System.out.println(client.getArrFromServer()); // working
+                //System.out.println(client.getArrFromServer()); // working
                 Board temp = client.getBoardfromServer();
                 //System.out.println("recieved this board:");
                 //temp.printBoard();

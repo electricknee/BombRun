@@ -30,8 +30,10 @@ public class HostServer implements Runnable{
     InputStream is;
     InputStreamReader isr;
 
-    DatagramSocket clientSocket;
+    DatagramSocket recvSocket;
+    DatagramSocket sndSocket;
     byte[] sendData = new byte[1024];
+    byte[] recvData = new byte[1024];
 
     public HostServer(int port,Board brd){
         this.board = brd;
@@ -39,7 +41,8 @@ public class HostServer implements Runnable{
         this.rowSize = brd.getRowSize();
         this.boardController = new BoardController(Main.gameBoard);
         try{
-            clientSocket = new DatagramSocket();
+            sndSocket = new DatagramSocket();
+            recvSocket = new DatagramSocket(9999);
         }catch(SocketException e){
             e.printStackTrace();
         }
@@ -100,17 +103,18 @@ public class HostServer implements Runnable{
       BoardArray.convertBoardtoArray(board,Arr);
       String temp = new String(Arr);
 
-      System.out.println("Sending from Datagram Socket:");
-      System.out.print(temp+"\n");
+      //System.out.println("Sending [board] from Datagram Socket:");
+      //System.out.print(temp+"\n");
 
       sendData = temp.getBytes();
-      DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9999);
-      clientSocket.send(out);
+      DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9991);
+      sndSocket.send(out);
     }
 
     //alter to accomodate for multiple clients
     public void readMoveFromClient() throws IOException{  // only read single char
       // read from client and call movement on board
+    System.out.println("Trying to read...");
       try{
         // wait until the client sends a character
         /* maybe:
@@ -121,6 +125,16 @@ public class HostServer implements Runnable{
             ...
         */
         char in_char = (char) isr.read();
+
+        // read the Datagram
+        DatagramPacket receivePacket = new DatagramPacket(recvData,recvData.length);
+        recvSocket.receive(receivePacket);
+        String temp = new String(recvData);
+        System.out.println("recieved move datagram");
+        System.out.print(temp+"\n");
+
+
+
         switch(in_char){
           case 'u':     boardController.playerAction(2,BoardController.movement.UP);
                         break;
@@ -138,6 +152,9 @@ public class HostServer implements Runnable{
       }catch(IOException e){
          e.printStackTrace();
       }
+
+
+
     }
 
 }

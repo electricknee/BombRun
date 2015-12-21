@@ -31,15 +31,17 @@ public class Client {
     OutputStream os;
 
     //updated server
-    DatagramSocket serverSocket;
+    DatagramSocket sndSocket;
+    DatagramSocket recvSocket;
     DatagramPacket receivePacket;
-    byte[] receiveBuf;
+    byte[] receiveBuf = new byte[1024];
+    byte[] sendData = new byte[1024];
 
     public Client(int port){
       this.PORT = port;
-      receiveBuf = new byte[1024];
       try{
-          this.serverSocket = new DatagramSocket(9999);
+          sndSocket = new DatagramSocket();
+          recvSocket = new DatagramSocket(9991);
       }catch(SocketException e){
           e.printStackTrace();
       }
@@ -69,17 +71,18 @@ public class Client {
         char[] Arr = new char[Main.BSIZE];
         DatagramPacket receivePacket = new DatagramPacket(receiveBuf,receiveBuf.length);
         try{
-            serverSocket.receive(receivePacket);
+            recvSocket.receive(receivePacket);
         }catch(IOException e){
             e.printStackTrace();
         }
         // recieveBuf has the data in byte array
         String temp = new String(receiveBuf);
-        System.out.printf("getArrFromServer) String recieved: %s\n",temp);
+        //System.out.printf("getArrFromServer) String recieved: %s\n",temp);
         return temp.toCharArray();
     }
 
-    public Board getBoardfromServer() throws ClassNotFoundException, IOException{
+    public Board getBoardfromServer()
+    throws ClassNotFoundException, IOException{
         try{
 
             //System.out.println("Waiting to recieve Board...");
@@ -96,16 +99,22 @@ public class Client {
     // Call this from Controller Class to send moves recieved from keyboard
     public void sendMoveToServer(movement m) throws IOException{
         char send_digit;
+        String temp;
         switch(m){
           case UP:      send_digit = 'u'; // UP
+                        temp = "u";
                         break;
           case DOWN:    send_digit = 'd'; // DOWN
+                        temp = "d";
                         break;
           case LEFT:    send_digit = 'l'; // LEFT
+                        temp = "l";
                         break;
           case RIGHT:   send_digit = 'r'; // RIGHT
+                        temp = "r";
                         break;
           case BOMB:    send_digit = 'b'; // BOMB
+                        temp = "b";
                         break;
           default:      System.out.println("Error in Client");
                         return;
@@ -114,6 +123,13 @@ public class Client {
         try{
             os.write(send_digit);
             os.flush();
+
+            // send Datagram
+             InetAddress addr = InetAddress.getLocalHost();
+             System.out.println("Sending [move] from Datagram Socket:");
+             System.out.print(temp+"\n");
+             DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9999);
+             sndSocket.send(out);
         }catch(IOException e){
            e.printStackTrace();
         }
