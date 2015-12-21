@@ -1,6 +1,7 @@
 public class BoardArray{
     /*  Conversions
         'e' empty
+        'q' dead player
         'a' player 1
         'b' player 2
         'c' player 3
@@ -27,19 +28,22 @@ public class BoardArray{
             }else if(cp.hasBarrel()){
                 bArray[i] = 'n';
 
+            }else if(cp.hasOrangeFire()){
+                bArray[i] = 'o';
+
+            }else if(cp.hasFire()){
+                bArray[i] = 'f';
+
+
             }else if(cp.hasPlayer()){
                 switch(cp.getPlayer().getIdentity()){
+                    case(0):    bArray[i] = 'q'; break;
                     case(1):    bArray[i] = 'a'; break;
                     case(2):    bArray[i] = 'b'; break;
                     case(3):    bArray[i] = 'c'; break;
                     case(4):    bArray[i] = 'd'; break;
                 }
 
-            }else if(cp.hasOrangeFire()){
-                bArray[i] = 'o';
-
-            }else if(cp.hasFire()){
-                bArray[i] = 'f';
 
 
 
@@ -57,6 +61,7 @@ public class BoardArray{
             board.getCell(i).clearCell();   // remove all old objects
 
             switch(Arr[i]){
+                case('q'):  board.addPlayer(i,new Player(0));   break;
                 case('a'):  board.addPlayer(i,new Player(1));   break;
                 case('b'):  board.addPlayer(i,new Player(2));   break;
                 case('c'):  board.addPlayer(i,new Player(3));   break;

@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Graphics2D;
+import java.io.IOException;
 /**
  * Created by zakary on 6/28/15.
  */
@@ -16,6 +17,20 @@ public class Board extends JComponent implements java.io.Serializable{
     private int player1Index=0;
     private int player2Index=0;
 //-------------------------------------------------------------------------------------
+    /* update board of server and all clients*/
+    public void universalRepaint(){
+        System.out.println(">>> universalRepaint");
+        this.repaint();
+        if(Main.hostServer != null ){
+            try{
+                Main.hostServer.sendBoardtoClient(Main.gameBoard);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     public void printPlayers(){
         System.out.println("Player indexes");
         System.out.println(player1Index);
@@ -98,7 +113,6 @@ public class Board extends JComponent implements java.io.Serializable{
     }
 
     public void paint(Graphics g){
-        //System.out.println("Repainting Board");
         int row=1;
         int x=1;
         for (int col=x; x<boardSize+1; x++){
@@ -128,14 +142,17 @@ public class Board extends JComponent implements java.io.Serializable{
 
             else if(cell.hasPlayer()){
                 if(cell.getPlayer().isDead()) {
-                    g.setColor(Color.lightGray);
+                    g.setColor(Color.black);
+                    cell.getPlayer().setIdentity(0); // set dead
                 }
                 else{ // player not dead
                     int currentID = cell.getPlayer().getIdentity();
                     if(currentID==1){
-                        g.setColor(Color.MAGENTA);
+                        g.setColor(new Color(0,100,0));
                     }else if(currentID==2){
                         g.setColor(Color.blue);
+                    }else if(currentID==0){
+                        g.setColor(Color.black); // dead player
                     }
 
                 }
@@ -160,12 +177,11 @@ public class Board extends JComponent implements java.io.Serializable{
 
     public void blockCell(int index){
         boardCells[index].setBlocked(true);
-        this.repaint();
+        universalRepaint();
     }
     public void addPlayer(int index,Player p){
         boardCells[index].addPlayer(p);
         this.setPlayerIndex(index, p.getIdentity());
-        this.repaint();
     }
     public boolean hasBomb(int index){
         if (boardCells[index].hasBomb()){
@@ -213,7 +229,7 @@ public class Board extends JComponent implements java.io.Serializable{
         Player temp = boardCells[oldIndex].getPlayer();
         this.addPlayer(newIndex,temp);
         boardCells[oldIndex].removePlayer();
-        this.repaint();
+        universalRepaint();
 
         this.setPlayerIndex(newIndex, temp.getIdentity());
         return true;
@@ -224,7 +240,7 @@ public class Board extends JComponent implements java.io.Serializable{
     }
     public void cleanBomb(int index){
         boardCells[index].clearBomb();
-        repaint();
+        universalRepaint();
     }
     public void detonateHelper(boolean B,int centerIndex, int size){
             if(centerIndex < 0 || centerIndex >= boardSize) return;
@@ -237,6 +253,7 @@ public class Board extends JComponent implements java.io.Serializable{
             }
             if(boardCells[centerIndex].hasPlayer()){
                 boardCells[centerIndex].getPlayer().setDead(true);
+
             }
 
         for(int i=1;i <= size;i++){ // right flare
@@ -363,7 +380,7 @@ public class Board extends JComponent implements java.io.Serializable{
                 //System.out.println("Clean fire "+ currentIndex);
             }
         }
-        this.repaint();
+        universalRepaint();
     }
     public void detonate(int centerIndex, int size){
         Timer timer = new Timer();
@@ -409,6 +426,7 @@ public class Board extends JComponent implements java.io.Serializable{
             this.addRandomBarrels();
         }
         repaint();
+        universalRepaint();
     }
     public void addRandomBarrels(){
         Random random = new Random();

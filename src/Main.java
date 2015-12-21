@@ -13,6 +13,8 @@ public class Main {
     public static final int RSIZE = 20;
     public static final int BSIZE = RSIZE*RSIZE;
     public static boolean server = false;
+    public static HostServer hostServer;
+    public static Controller myController;
     // should work with IPv4 and IPv6 addresses: colons / periods
     private static final String HOST_IP_STRING =
         "2601:86:c100:9ef0:564:8f1c:842b:67d9";
@@ -73,8 +75,7 @@ public class Main {
         }/*-------------------------------------------------------------------*/
 
         Client client;
-        HostServer hostServer;
-        Controller myController;
+
 
         if(server){/*--------------------------------------SERVER-------------*/
 
@@ -87,25 +88,26 @@ public class Main {
 
             Thread constant_board_sender = new Thread(hostServer);
             constant_board_sender.start();
+            gameBoard.universalRepaint();
 
-            while(true){
-                //System.out.printf("Sending Board:\n");
-                hostServer.sendBoardtoClient(gameBoard);
-            }
         } else{/*--------------------------------------CLIENT-----------------*/
 
             client = new Client(9998); // client used to send moves to Server
             //client.connectToServer(HOST_IP_STRING);
             myController = new Controller(2,client);
             myController.addKeyBindings();
+            char[] tArr = null;
 
             while(true){
+                System.out.println("waiting...");
+                tArr = client.getArrFromServer();
+                System.out.println("got board from server");
+                if(tArr != null){
+                    BoardArray.writeArraytoBoard(tArr, gameBoard);
+                    gameBoard.repaint();
+                    tArr=null;
+                }
 
-                char[] tArr = client.getArrFromServer();
-
-                BoardArray.writeArraytoBoard(tArr, gameBoard);
-
-                gameBoard.repaint();
 
                 //System.out.println("updated board");
                 //Main.gameBoard.printBoard();
