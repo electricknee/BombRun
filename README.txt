@@ -1,14 +1,12 @@
 BombRun
 A two-player head-to-head challenge
 
-Complile: make
+Compile: make
 Play: 	  make run
+
+When prompted, choose server or client.
+Hit Enter
 
 Controls:
 WASD	Movement
 O	Plant Bomb
-
-To Do:
-Add [server transmit board to client] and [client display board]
-Clean up gui
-scale to 4 player
