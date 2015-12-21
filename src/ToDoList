@@ -15,3 +15,9 @@ TO DO
 Optimize
 - only rePaint client when Main board is repainted
 - figure out how to print from the array, so only the server has to run the board
+
+
+Notes
+-when one bomb sets off another, there will be normal fire on the same square the
+    orange fire - won't cause problems as long as drawing the orange fire has higher
+    precedence

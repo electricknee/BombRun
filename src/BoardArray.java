@@ -35,11 +35,13 @@ public class BoardArray{
                     case(4):    bArray[i] = 'd'; break;
                 }
 
+            }else if(cp.hasOrangeFire()){
+                bArray[i] = 'o';
+
             }else if(cp.hasFire()){
                 bArray[i] = 'f';
 
-            }else if(cp.hasOrangeFire()){
-                bArray[i] = 'o';
+
 
             }else{
                 bArray[i] = 'e';
@@ -60,9 +62,9 @@ public class BoardArray{
                 case('c'):  board.addPlayer(i,new Player(3));   break;
                 case('d'):  board.addPlayer(i,new Player(4));   break;
                 case('e'):  board.getCell(i).clearCell();       break;
-                case('f'):  board.setFire(i);                   break;
                 case('v'):  board.getCell(i).setBomb();         break;
                 case('o'):  board.setOrangeFire(i,true);        break;
+                case('f'):  board.setFire(i);                   break;
                 case('m'):  board.blockCell(i);                 break;
                 case('n'):  board.getCell(i).addBarrel();     break;
 
