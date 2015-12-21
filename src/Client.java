@@ -126,8 +126,8 @@ public class Client {
 
             // send Datagram
              InetAddress addr = InetAddress.getLocalHost();
-             System.out.println("Sending [move] from Datagram Socket:");
-             System.out.print(temp+"\n");
+             //System.out.println("Sending [move] from Datagram Socket:");
+             //System.out.print(temp+"\n");
              sendData = temp.getBytes();
              DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9999);
              sndSocket.send(out);

@@ -98,7 +98,6 @@ public class Main {
             //client.connectToServer(HOST_IP_STRING);
             myController = new Controller(2,client);
             myController.addKeyBindings();
-            System.out.println("pre");
 
             while(true){
 
