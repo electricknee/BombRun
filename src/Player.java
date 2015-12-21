@@ -39,6 +39,9 @@ public class Player implements java.io.Serializable{
     }
     public void setDead(boolean B){
         this.dead=B;
+        if(B){
+            this.identity = 0;
+        }
     }
     public boolean isDead(){
         return this.dead;

@@ -1,14 +1,24 @@
 TO DO
 
-- find the bug in the barrel/block creation that makes barrels and blocks occur
-    on the same square
 
-- get the client to display the board properly
-
-- Stop the Client and server from crashing if the other drops
+Fixes
 
 - Simplify code using the gameBoard static object
-
 - Document the use of each class in Javadoc style comments
 
 - expand to multiple players
+- make boardsize private and add setter/getter
+- resize the datagram smaller
+- test from different computers
+
+
+
+Optimize
+- only rePaint client when Main board is repainted
+- figure out how to print from the array, so only the server has to run the board
+
+
+Notes
+-when one bomb sets off another, there will be normal fire on the same square the
+    orange fire - won't cause problems as long as drawing the orange fire has higher
+    precedence

@@ -10,6 +10,11 @@ import java.io.*;
 public class Main {
 
     public static Board gameBoard;
+    public static final int RSIZE = 20;
+    public static final int BSIZE = RSIZE*RSIZE;
+    public static boolean server = false;
+    public static HostServer hostServer;
+    public static Controller myController;
     // should work with IPv4 and IPv6 addresses: colons / periods
     private static final String HOST_IP_STRING =
         "2601:86:c100:9ef0:564:8f1c:842b:67d9";
@@ -18,7 +23,8 @@ public class Main {
     public static void main(String [] args)
         throws IOException, ClassNotFoundException{
 
-        boolean server = false;
+
+
         System.out.println("Enter (1)Server or (2)Client");
         InputStreamReader in = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(in);
@@ -36,13 +42,13 @@ public class Main {
         }
 
         boolean barrels = true;
-        if(!server){
+        if(!server){// only create barrels on server
             barrels = false;
         }
 
-        BoardFrame frame = new BoardFrame(800);
+        BoardFrame frame = new BoardFrame(200);
         frame.setLayout(new BorderLayout());
-        gameBoard = new Board(5,barrels);
+        gameBoard = new Board(RSIZE,barrels);
         frame.add(BorderLayout.CENTER,gameBoard);
 
         if(server){/*--------------------------------------SERVER-------------*/
@@ -69,43 +75,41 @@ public class Main {
         }/*-------------------------------------------------------------------*/
 
         Client client;
-        HostServer hostServer;
-        Controller myController;
+
 
         if(server){/*--------------------------------------SERVER-------------*/
 
             hostServer = new HostServer(9998,gameBoard);
-            hostServer.initServer();
+            //hostServer.initServer();
             myController = new Controller(1);
             myController.addKeyBindings();
             //hostServer.sendBoardtoClient(gameBoard);
             //System.out.println("Board Sent!");
 
             Thread constant_board_sender = new Thread(hostServer);
-
             constant_board_sender.start();
+            gameBoard.universalRepaint();
 
-            while(true){
-                System.out.printf("Sending Board:\n");
-                //gameBoard.printBoard();
-                hostServer.sendBoardtoClient(gameBoard);
-
-                //System.out.println("Read move from client");
-            }
         } else{/*--------------------------------------CLIENT-----------------*/
 
             client = new Client(9998); // client used to send moves to Server
-            client.connectToServer(HOST_IP_STRING);
+            //client.connectToServer(HOST_IP_STRING);
             myController = new Controller(2,client);
             myController.addKeyBindings();
+            char[] tArr = null;
 
             while(true){
-                Board temp = client.getBoardfromServer();
-                System.out.println("recieved this board:");
-                //temp.printBoard();
-                Board.copyBoard(gameBoard,temp);
-                Main.gameBoard.repaint();
-                System.out.println("updated board");
+                System.out.println("waiting...");
+                tArr = client.getArrFromServer();
+                System.out.println("got board from server");
+                if(tArr != null){
+                    BoardArray.writeArraytoBoard(tArr, gameBoard);
+                    gameBoard.repaint();
+                    tArr=null;
+                }
+
+
+                //System.out.println("updated board");
                 //Main.gameBoard.printBoard();
             }
         }
