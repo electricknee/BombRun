@@ -2,14 +2,15 @@ TO DO
 
 
 Fixes
-- Stop the Client and server from crashing if the other drops
+
 - Simplify code using the gameBoard static object
 - Document the use of each class in Javadoc style comments
+
 - expand to multiple players
 - make boardsize private and add setter/getter
 - resize the datagram smaller
-- make the datagram version work and test from different computers
-- make the dead color transfer from client to server
+- test from different computers
+
 
 
 Optimize
