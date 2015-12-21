@@ -11,7 +11,7 @@ public class Board extends JComponent implements java.io.Serializable{
 
     public int rowSize = 20;
     public int boardSize = rowSize*rowSize;
-    private int cellSize = 50;
+    private int cellSize = 30;
     private Cell[] boardCells;
     private int player1Index=0;
     private int player2Index=0;

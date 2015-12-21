@@ -13,7 +13,7 @@ public class Cell implements java.io.Serializable{
     private boolean block = false;
     private Player player = null;
     private Bomb bomb = null;
-    private boolean fire;
+    private boolean fire = false;
     private boolean orangeFire = false;
     private int firecount=0;
     private boolean barrel=false;
@@ -140,8 +140,10 @@ public class Cell implements java.io.Serializable{
     }
     public void clearCell(){
         this.player=null;
-        if(this.bomb != null){
+        if(this.bomb != null && Main.server){
             cancelDet();
+            this.bomb=null;
+        }else{
             this.bomb=null;
         }
         this.fire=false;

@@ -87,6 +87,7 @@ public class HostServer implements Runnable{
     }
 
     public void sendBoardtoClient(Board board) throws IOException{
+/*
       try{
          //System.out.println("sendBoardtoClient Function:");
          //Main.gameBoard.printBoard();
@@ -95,9 +96,9 @@ public class HostServer implements Runnable{
       }catch(IOException e){
            e.printStackTrace();
       }
-
+*/
       // send with DatagramSocket
-
+      //System.out.println("sending board from Hostserver");
       InetAddress addr = InetAddress.getLocalHost();
       char[] Arr = new char[Main.BSIZE];
       BoardArray.convertBoardtoArray(board,Arr);
@@ -109,12 +110,13 @@ public class HostServer implements Runnable{
       sendData = temp.getBytes();
       DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9991);
       sndSocket.send(out);
+     //System.out.println("send complete");
     }
 
     //alter to accomodate for multiple clients
     public void readMoveFromClient() throws IOException{  // only read single char
       // read from client and call movement on board
-    System.out.println("Trying to read...");
+    //System.out.println("Trying to read...");
       try{
         // wait until the client sends a character
         /* maybe:
@@ -124,18 +126,16 @@ public class HostServer implements Runnable{
             f - p3 up
             ...
         */
-        char in_char = (char) isr.read();
+        //char in_char = (char) isr.read();
 
         // read the Datagram
         DatagramPacket receivePacket = new DatagramPacket(recvData,recvData.length);
         recvSocket.receive(receivePacket);
         String temp = new String(recvData);
-        System.out.println("recieved move datagram");
-        System.out.print(temp+"\n");
+        //System.out.println("recieved move datagram");
+        //System.out.print("move read= "+temp+"\n");
 
-
-
-        switch(in_char){
+        switch(temp.charAt(0)){
           case 'u':     boardController.playerAction(2,BoardController.movement.UP);
                         break;
           case 'd':     boardController.playerAction(2,BoardController.movement.DOWN);

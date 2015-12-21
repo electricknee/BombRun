@@ -121,13 +121,14 @@ public class Client {
         }
         // Socket to client has already been created
         try{
-            os.write(send_digit);
-            os.flush();
+            //os.write(send_digit);
+            //os.flush();
 
             // send Datagram
              InetAddress addr = InetAddress.getLocalHost();
              System.out.println("Sending [move] from Datagram Socket:");
              System.out.print(temp+"\n");
+             sendData = temp.getBytes();
              DatagramPacket out = new DatagramPacket(sendData,sendData.length,addr,9999);
              sndSocket.send(out);
         }catch(IOException e){
