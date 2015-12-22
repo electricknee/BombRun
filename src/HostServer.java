@@ -98,8 +98,11 @@ public class HostServer implements Runnable{
       }
 */
       // send with DatagramSocket
-      //System.out.println("sending board from Hostserver");
-      InetAddress addr = InetAddress.getLocalHost();
+
+      //InetAddress addr = InetAddress.getLocalHost();
+      InetAddress addr = InetAddress.
+        getByName("2601:86:c100:9ef0:1dec:552a:be1b:83c4");
+
       char[] Arr = new char[Main.BSIZE];
       BoardArray.convertBoardtoArray(board,Arr);
       String temp = new String(Arr);

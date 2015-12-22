@@ -425,7 +425,6 @@ public class Board extends JComponent implements java.io.Serializable{
         if(withBarrels){
             this.addRandomBarrels();
         }
-        repaint();
         universalRepaint();
     }
     public void addRandomBarrels(){
