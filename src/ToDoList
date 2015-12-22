@@ -16,7 +16,8 @@ Fixes
 Optimize
 - only rePaint client when Main board is repainted
 - figure out how to print from the array, so only the server has to run the board
-
+- remove TCP remnants
+- use the address of the first message so that both addresses don't need to be used
 
 Notes
 -when one bomb sets off another, there will be normal fire on the same square the
