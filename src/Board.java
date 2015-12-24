@@ -162,8 +162,10 @@ public class Board extends JComponent implements java.io.Serializable{
                 drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
             }
             // Draw the black frame for each square
-            g.setColor(Color.black);
-            g.drawRect(col*cellSize,row*cellSize,cellSize,cellSize);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3));
+            g2.setColor(Color.black);
+            g2.drawRect(col*cellSize,row*cellSize,cellSize,cellSize);
 
             if (x%rowSize == 0){ // reset to new row
                 row++;
