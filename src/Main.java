@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.*;
+import java.net.InetAddress;
 /**
  * Created by zakary on 6/28/15.
  */
@@ -15,19 +16,36 @@ public class Main {
     public static boolean server = false;
     public static HostServer hostServer;
     public static Controller myController;
+    public static InetAddress global_address;
     // should work with IPv4 and IPv6 addresses: colons / periods
+
+    private static InputStreamReader in;
+    private static BufferedReader br;
+
     private static final String HOST_IP_STRING =
         "2601:86:c100:9ef0:564:8f1c:842b:67d9";
-
 
     public static void main(String [] args)
         throws IOException, ClassNotFoundException{
 
+        in = new InputStreamReader(System.in);
+        br = new BufferedReader(in);
 
+        if(args.length == 1){
+            if(args[0].equals("localhost")){
+                System.out.println("Running Local");
+                global_address =  InetAddress.getLocalHost();
+            } else{
+                System.out.println("Command Line Error");
+                System.exit(1);
+            }
+        }else{
+            System.out.println("Enter IP Address of other Participant. Press Enter");
+            String ip_str = br.readLine() ;
+            global_address =  InetAddress.getByName(ip_str);
+        }
 
-        System.out.println("Enter (1)Server or (2)Client");
-        InputStreamReader in = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(in);
+        System.out.println("Enter (1)Server or (2)Client. Press Enter");
         int result = Integer.parseInt( br.readLine() );
 
         if(result == 1){
@@ -41,7 +59,7 @@ public class Main {
             return;
         }
 
-        boolean barrels = true;
+        boolean barrels = false;
         if(!server){// only create barrels on server
             barrels = false;
         }
@@ -58,7 +76,6 @@ public class Main {
             {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("pressed reset");
                     gameBoard.ResetBoard(true);
                 }
             });
@@ -80,11 +97,8 @@ public class Main {
         if(server){/*--------------------------------------SERVER-------------*/
 
             hostServer = new HostServer(9998,gameBoard);
-            //hostServer.initServer();
             myController = new Controller(1);
             myController.addKeyBindings();
-            //hostServer.sendBoardtoClient(gameBoard);
-            //System.out.println("Board Sent!");
 
             Thread constant_board_sender = new Thread(hostServer);
             constant_board_sender.start();
@@ -93,26 +107,20 @@ public class Main {
         } else{/*--------------------------------------CLIENT-----------------*/
 
             client = new Client(9998); // client used to send moves to Server
-            //client.connectToServer(HOST_IP_STRING);
+
             myController = new Controller(2,client);
             myController.addKeyBindings();
             char[] tArr = null;
 
             while(true){
-                System.out.println("waiting...");
                 tArr = client.getArrFromServer();
-                System.out.println("got board from server");
                 if(tArr != null){
                     BoardArray.writeArraytoBoard(tArr, gameBoard);
                     gameBoard.repaint();
                     tArr=null;
                 }
-
-
-                //System.out.println("updated board");
-                //Main.gameBoard.printBoard();
             }
         }
-        // the board coming out the send is different than the one going in..?
+
     }
 }

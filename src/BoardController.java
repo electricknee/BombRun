@@ -1,9 +1,8 @@
 import java.util.TimerTask;
 import java.util.Timer;
-import java.io.Serializable;
 
 /*  Nothing happens if an action is not possible*/
-public class BoardController implements Serializable{
+public class BoardController{
 
     public enum movement{
         UP, DOWN, LEFT, RIGHT, BOMB
@@ -17,8 +16,6 @@ public class BoardController implements Serializable{
     }
 
     public void playerAction(int playerID, movement m ){
-        //System.out.print("Called playerAction\nPlayerID\n");
-        //System.out.print(playerID); System.out.print("\n");
 
         int currentIndex = board.getPlayerIndex(playerID);
         switch (m){
@@ -47,7 +44,11 @@ public class BoardController implements Serializable{
                         break;
 
             case BOMB:  Player player = Main.gameBoard.getPlayer(currentIndex);
-                        if (player.getBombCount() > 0 && !player.isDead()) {
+                        if (player.getBombCount() > 0
+                            && !player.isDead()
+                            && !Main.gameBoard.getCell(currentIndex).hasBomb()
+                            )
+                        {
                             board.setBomb(currentIndex, 3);
                             player.subBomb();
                             Timer timer = new Timer();

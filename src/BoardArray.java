@@ -43,10 +43,6 @@ public class BoardArray{
                     case(3):    bArray[i] = 'c'; break;
                     case(4):    bArray[i] = 'd'; break;
                 }
-
-
-
-
             }else{
                 bArray[i] = 'e';
             }
@@ -71,11 +67,9 @@ public class BoardArray{
                 case('o'):  board.setOrangeFire(i,true);        break;
                 case('f'):  board.setFire(i);                   break;
                 case('m'):  board.blockCell(i);                 break;
-                case('n'):  board.getCell(i).addBarrel();     break;
-
+                case('n'):  board.getCell(i).addBarrel();       break;
             }
         }
-
         return;
     }
 }

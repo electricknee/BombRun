@@ -5,7 +5,7 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Cell implements java.io.Serializable{
+public class Cell {
 
     private int cellSize = 10;
     private int row;
@@ -123,7 +123,6 @@ public class Cell implements java.io.Serializable{
             if(firecount==0){
                 this.fire = false;
             }
-            //this.orangeFire=false;
         }
     }
     public boolean hasFire(){

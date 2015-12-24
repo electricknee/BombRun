@@ -4,11 +4,11 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Bomb implements java.io.Serializable{
+public class Bomb {
     private Timer timer;
     private int bombIndex;
 
-    public Bomb(){} // for display purpose, non-explosive
+    public Bomb(){} // for display purpose in client, non-explosive ;)
 
     public Bomb(int index,int time){
         this.bombIndex = index;
@@ -31,7 +31,4 @@ public class Bomb implements java.io.Serializable{
     public void cancelDet(){
         this.timer.cancel();
     }
-
-
-
 }
