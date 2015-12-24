@@ -9,6 +9,8 @@ Fixes
 - make boardsize private and add setter/getter
 
 - error where explosions persist through the end of games
+- make the controllers run as threads so they can use sleep() to slow gameplay
+
 
 
 Optimize

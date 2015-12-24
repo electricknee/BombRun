@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Controller implements java.io.Serializable{
+public class Controller{
 
     private Board board;
     private int rowSize;
