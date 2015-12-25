@@ -4,7 +4,7 @@ import java.util.TimerTask;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Player implements java.io.Serializable{
+public class Player {
 
     private Board board;
     private boolean dead=false;
@@ -30,7 +30,6 @@ public class Player implements java.io.Serializable{
     }
     public void subBomb(){
         this.bombCount--;
-        //System.out.println("(post)Player "+identity+" bombCount = "+bombCount);
     }
     public Player(int ID){
         this.identity=ID;

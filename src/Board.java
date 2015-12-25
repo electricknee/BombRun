@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by zakary on 6/28/15.
  */
-public class Board extends JComponent implements java.io.Serializable{
+public class Board extends JComponent {
 
     public int rowSize = 20;
     public int boardSize = rowSize*rowSize;
@@ -19,7 +19,6 @@ public class Board extends JComponent implements java.io.Serializable{
 //-------------------------------------------------------------------------------------
     /* update board of server and all clients*/
     public void universalRepaint(){
-        System.out.println(">>> universalRepaint");
         this.repaint();
         if(Main.hostServer != null ){
             try{
@@ -29,7 +28,6 @@ public class Board extends JComponent implements java.io.Serializable{
             }
         }
     }
-
 
     public void printPlayers(){
         System.out.println("Player indexes");
@@ -128,8 +126,6 @@ public class Board extends JComponent implements java.io.Serializable{
             }
             else if(cell.hasBarrel()){
                 drawBarrel(g,col*cellSize,row*cellSize);
-                //g.setColor(Color.GRAY);
-                //g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
             }
             else if(cell.hasOrangeFire()){
                 g.setColor(Color.ORANGE);
