@@ -1,6 +1,7 @@
 BombRun
 A two-player head-to-head challenge
 
+run "mkdir out"
 Compile: make
 Play: 	  make run
 
