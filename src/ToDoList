@@ -4,19 +4,19 @@ TO DO
 Fixes
 
 - Simplify code using the gameBoard statics
-- Document classes with comments and remove unncessary
+- Document classes with comments
 
 - make boardsize private and add setter/getter
 
 - error where explosions persist through the end of games
 - make the controllers run as threads so they can use sleep() to slow gameplay
 
-
+- error still exists where fire is not getting put out
 
 Optimize
 - resize the datagram smaller
 - figure out how to print from the array, so only the server has to run the board
-- remove TCP remnants
+
 - use the address of the first message so that both addresses don't need to be used
     create a sync process
 
