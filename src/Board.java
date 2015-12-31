@@ -117,8 +117,8 @@ public class Board extends JComponent {
 		if(server){
 		int row=1;
         int x=1;
-		System.out.println("Server Paint");
-        for (int col=x; x<boardSize+1; x++){
+		//System.out.println("Server Paint");
+        for (int col=x; x<=boardSize; x++){
 	
             int index = (row-1)*rowSize+(col-1); // calculate the current index
             Cell cell = boardCells[index];
@@ -179,45 +179,55 @@ public class Board extends JComponent {
         }
 		}// end server
 		else if(Client.currentArray != null){ //client
-			System.out.println("Client Paint");
+			//System.out.println("Client Paint");
 			int row = 1, col = 1;
 			for (int x=1 ; x <= boardSize ;x++){
 		        //background color
 				g.setColor(new Color(169, 173, 185));
 		        g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
 
-				char character = Client.currentArray.charAt(x);
+				char character = Client.currentArray.charAt(x-1);
 				switch(character){
-					case('a'):		
+					case('a'):		g.setColor(new Color(0,100,0));
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
 									break;
-					case('b'):		
+					case('b'):		g.setColor(Color.blue);
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
 									break;
 					case('c'):		
 									break;
 					case('d'):		
 									break;
-					case('v'):		
+					case('v'):		drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
 									break;
-					case('f'):		
+					case('f'):		g.setColor(Color.RED);
+               						g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
 									break;
-					case('o'):		
+					case('o'):		g.setColor(Color.ORANGE);
+                					g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
 									break;
-					case('n'):		
+					case('n'):		drawBarrel(g,col*cellSize,row*cellSize);
 									break;
-					case('m'):		
+					case('m'):		g.setColor(new Color(54,54,54));
+                					g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
 									break;
-					case('e'):		
+					case('q'):		g.setColor(Color.black); // dead player
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
 									break;
-					case('q'):		
-									break;								
+					default:		break; // empty square will default							
 				}
-				if(x % rowSize == 0){
-					//reset to new row
-					row++;
-					col = 1;				
-				}else{
-					col++;			
-				}
+				// Draw the black frame for each square
+		        Graphics2D g2 = (Graphics2D) g;
+		        g2.setStroke(new BasicStroke(3));
+		        g2.setColor(Color.black);
+		        g2.drawRect(col*cellSize,row*cellSize,cellSize,cellSize);
+
+
+		        if (x%rowSize == 0){ // reset to new row
+		            row++;
+		            col=0;
+		        }
+		        col++;
 			}
 		}else{
 			System.out.println("Null Arr");
