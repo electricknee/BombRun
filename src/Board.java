@@ -16,6 +16,7 @@ public class Board extends JComponent {
     private Cell[] boardCells;
     private int player1Index=0;
     private int player2Index=0;
+    private boolean server=false;
 //-------------------------------------------------------------------------------------
     /* update board of server and all clients*/
     public void universalRepaint(){
@@ -97,6 +98,7 @@ public class Board extends JComponent {
     public Board(int rs,boolean withBarrels){
         this.rowSize = rs;
         this.boardSize = rs*rs;
+	this.server = Main.server;
 
         boardCells = new Cell[boardSize];
         // create all cell in an array
@@ -111,12 +113,17 @@ public class Board extends JComponent {
     }
 
     public void paint(Graphics g){
-        int row=1;
+		// define all the colors here or make them class variables
+		if(server){
+		int row=1;
         int x=1;
+		System.out.println("Server Paint");
         for (int col=x; x<boardSize+1; x++){
+	
             int index = (row-1)*rowSize+(col-1); // calculate the current index
             Cell cell = boardCells[index];
-            g.setColor(new Color(169, 173, 185));
+            //background color
+			g.setColor(new Color(169, 173, 185));
             g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
             // Mark the blocked Squares
             if (cell.isBlocked()){
@@ -157,6 +164,7 @@ public class Board extends JComponent {
             else if(cell.hasBomb()){
                 drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
             }
+	
             // Draw the black frame for each square
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3));
@@ -169,6 +177,51 @@ public class Board extends JComponent {
             }
             col++;
         }
+		}// end server
+		else if(Client.currentArray != null){ //client
+			System.out.println("Client Paint");
+			int row = 1, col = 1;
+			for (int x=1 ; x <= boardSize ;x++){
+		        //background color
+				g.setColor(new Color(169, 173, 185));
+		        g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
+
+				char character = Client.currentArray.charAt(x);
+				switch(character){
+					case('a'):		
+									break;
+					case('b'):		
+									break;
+					case('c'):		
+									break;
+					case('d'):		
+									break;
+					case('v'):		
+									break;
+					case('f'):		
+									break;
+					case('o'):		
+									break;
+					case('n'):		
+									break;
+					case('m'):		
+									break;
+					case('e'):		
+									break;
+					case('q'):		
+									break;								
+				}
+				if(x % rowSize == 0){
+					//reset to new row
+					row++;
+					col = 1;				
+				}else{
+					col++;			
+				}
+			}
+		}else{
+			System.out.println("Null Arr");
+		}
 
 
     }
