@@ -1,7 +1,7 @@
 import java.util.TimerTask;
 import java.util.Timer;
 
-/*  Nothing happens if an action is not possible*/
+/*  no message if an action is not possible*/
 public class BoardController{
 
     public enum movement{

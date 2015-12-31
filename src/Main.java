@@ -114,11 +114,12 @@ public class Main {
 
             while(true){
                 tArr = client.getArrFromServer();
-                if(tArr != null){
+		gameBoard.repaint();
+               /* if(tArr != null){
                     BoardArray.writeArraytoBoard(tArr, gameBoard);
                     gameBoard.repaint();
                     tArr=null;
-                }
+                }*/
             }
         }
 
