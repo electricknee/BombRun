@@ -1,13 +1,14 @@
 BombRun
 A two-player head-to-head challenge
 
-run "mkdir out"
-Compile: make
-Play: 	  make run
+To Play
+  run "mkdir out"
+  Compile: make
+  Play Across Network: 	    make run
+  Play locally(localhost):  make runlocal 
 
-When prompted, choose server or client.
-Hit Enter
+  When prompted, choose server or client.
 
 Controls:
-WASD	Movement
-O	Plant Bomb
+  WASD	Movement
+  O	Plant Bomb
