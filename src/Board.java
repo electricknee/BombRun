@@ -20,7 +20,7 @@ public class Board extends JComponent {
 //-------------------------------------------------------------------------------------
     /* update board of server and all clients*/
     public void universalRepaint(){
-        this.repaint();
+
         if(Main.hostServer != null ){
             try{
                 Main.hostServer.sendBoardtoClient(Main.gameBoard);
@@ -28,6 +28,7 @@ public class Board extends JComponent {
                 e.printStackTrace();
             }
         }
+        this.repaint();
     }
 
     public void printPlayers(){
@@ -119,7 +120,7 @@ public class Board extends JComponent {
         int x=1;
 		//System.out.println("Server Paint");
         for (int col=x; x<=boardSize; x++){
-	
+
             int index = (row-1)*rowSize+(col-1); // calculate the current index
             Cell cell = boardCells[index];
             //background color
@@ -164,7 +165,7 @@ public class Board extends JComponent {
             else if(cell.hasBomb()){
                 drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
             }
-	
+
             // Draw the black frame for each square
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3));
@@ -194,9 +195,9 @@ public class Board extends JComponent {
 					case('b'):		g.setColor(Color.blue);
 									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
 									break;
-					case('c'):		
+					case('c'):
 									break;
-					case('d'):		
+					case('d'):
 									break;
 					case('v'):		drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
 									break;
@@ -214,7 +215,7 @@ public class Board extends JComponent {
 					case('q'):		g.setColor(Color.black); // dead player
 									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
 									break;
-					default:		break; // empty square will default							
+					default:		break; // empty square will default
 				}
 				// Draw the black frame for each square
 		        Graphics2D g2 = (Graphics2D) g;

@@ -14,8 +14,8 @@ public class HostServer implements Runnable{
     private BoardController boardController;
     DatagramSocket recvSocket;
     DatagramSocket sndSocket;
-    byte[] sendData = new byte[1024];
-    byte[] recvData = new byte[1024];
+    byte[] sendData = new byte[500];
+    byte[] recvData = new byte[500];
 
     public HostServer(int port,Board brd){
 
@@ -39,9 +39,6 @@ public class HostServer implements Runnable{
     }
 
     public void sendBoardtoClient(Board board) throws IOException{
-      //InetAddress addr = InetAddress.getLocalHost();
-      InetAddress addr = InetAddress.
-        getByName("2601:86:c100:9ef0:1dec:552a:be1b:83c4");
 
       char[] Arr = new char[Main.BSIZE];
       BoardArray.convertBoardtoArray(board,Arr);

@@ -16,10 +16,10 @@ public class Client {
     DatagramSocket sndSocket;
     DatagramSocket recvSocket;
     DatagramPacket receivePacket;
-    byte[] receiveBuf = new byte[1024];
-    byte[] sendData = new byte[1024];
+    byte[] receiveBuf = new byte[500];
+    byte[] sendData = new byte[500];
     public static String currentArray;
-    
+
 
     public Client(int port){
       try{
@@ -40,7 +40,7 @@ public class Client {
             e.printStackTrace();
         }
         // recieveBuf has the data in byte array
-	
+
         String temp = currentArray = new String(receiveBuf);
         return temp.toCharArray();
     }
