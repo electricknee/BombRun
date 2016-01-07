@@ -21,25 +21,21 @@ public class BoardController{
         switch (m){
             case UP:    if (board.movePlayer(currentIndex, 1)) {
                             board.setPlayerIndex(currentIndex - rowSize, playerID);
-                            board.repaint();
                         }
                         break;
 
             case DOWN:  if (board.movePlayer(currentIndex, 2)) {
                             board.setPlayerIndex(currentIndex + rowSize, playerID);
-                            board.repaint();
                         }
                         break;
 
             case LEFT:  if (board.movePlayer(currentIndex, 4)) {
                             board.setPlayerIndex(currentIndex - 1, playerID);
-                            board.repaint();
                         }
                         break;
 
             case RIGHT: if (board.movePlayer(currentIndex, 3)) {
                             board.setPlayerIndex(currentIndex + 1, playerID);
-                            board.repaint();
                         }
                         break;
 

@@ -114,6 +114,7 @@ public class Board extends JComponent {
     }
 
     public void paint(Graphics g){
+      System.out.println("Painting");
 		// define all the colors here or make them class variables
 		if(server){
 		int row=1;

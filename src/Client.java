@@ -7,7 +7,7 @@ import java.net.*;
 /**
  * Created by zakary on 12/13/15.
  */
-public class Client {
+public class Client implements Runnable{
 
     public enum movement{
       UP, DOWN, LEFT, RIGHT, BOMB
@@ -27,6 +27,14 @@ public class Client {
           recvSocket = new DatagramSocket(9991);
       }catch(SocketException e){
           e.printStackTrace();
+      }
+    }
+
+    public void run(){
+      while(true){
+
+            getArrFromServer();
+            Main.gameBoard.repaint();
       }
     }
 

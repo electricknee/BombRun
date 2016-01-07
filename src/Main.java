@@ -104,12 +104,9 @@ public class Main {
 
             myController = new Controller(2,client);
             myController.addKeyBindings();
-            char[] tArr = null;
 
-            while(true){
-                  tArr = client.getArrFromServer();
-		              gameBoard.repaint();
-            }
+            Thread board_receiver = new Thread(client);
+            board_receiver.start();
         }
 
     }
