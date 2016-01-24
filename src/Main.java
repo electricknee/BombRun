@@ -89,37 +89,24 @@ public class Main {
             gameBoard.repaint();
 
             frame.setVisible(true);
-        }/*-------------------------------------------------------------------*/
-
-        Client client;
-
-
-        if(server){/*--------------------------------------SERVER-------------*/
 
             hostServer = new HostServer(9998,gameBoard);
             myController = new Controller(1);
             myController.addKeyBindings();
 
-            Thread constant_board_sender = new Thread(hostServer);
-            constant_board_sender.start();
+            Thread board_sender = new Thread(hostServer);
+            board_sender.start();
             gameBoard.universalRepaint();
 
-        } else{/*--------------------------------------CLIENT-----------------*/
+        }else{/*--------------------------------------CLIENT-----------------*/
 
-            client = new Client(9998); // client used to send moves to Server
+            Client client = new Client(9998);
 
             myController = new Controller(2,client);
             myController.addKeyBindings();
-            char[] tArr = null;
 
-            while(true){
-                tArr = client.getArrFromServer();
-                if(tArr != null){
-                    BoardArray.writeArraytoBoard(tArr, gameBoard);
-                    gameBoard.repaint();
-                    tArr=null;
-                }
-            }
+            Thread board_receiver = new Thread(client);
+            board_receiver.start();
         }
 
     }

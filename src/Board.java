@@ -16,10 +16,11 @@ public class Board extends JComponent {
     private Cell[] boardCells;
     private int player1Index=0;
     private int player2Index=0;
+    private boolean server=false;
 //-------------------------------------------------------------------------------------
     /* update board of server and all clients*/
     public void universalRepaint(){
-        this.repaint();
+
         if(Main.hostServer != null ){
             try{
                 Main.hostServer.sendBoardtoClient(Main.gameBoard);
@@ -27,6 +28,7 @@ public class Board extends JComponent {
                 e.printStackTrace();
             }
         }
+        this.repaint();
     }
 
     public void printPlayers(){
@@ -97,6 +99,7 @@ public class Board extends JComponent {
     public Board(int rs,boolean withBarrels){
         this.rowSize = rs;
         this.boardSize = rs*rs;
+	this.server = Main.server;
 
         boardCells = new Cell[boardSize];
         // create all cell in an array
@@ -111,12 +114,18 @@ public class Board extends JComponent {
     }
 
     public void paint(Graphics g){
-        int row=1;
+      //System.out.println("Painting");
+		// define all the colors here or make them class variables
+		if(server){
+		int row=1;
         int x=1;
-        for (int col=x; x<boardSize+1; x++){
+		//System.out.println("Server Paint");
+        for (int col=x; x<=boardSize; x++){
+
             int index = (row-1)*rowSize+(col-1); // calculate the current index
             Cell cell = boardCells[index];
-            g.setColor(new Color(169, 173, 185));
+            //background color
+			g.setColor(new Color(169, 173, 185));
             g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
             // Mark the blocked Squares
             if (cell.isBlocked()){
@@ -157,6 +166,7 @@ public class Board extends JComponent {
             else if(cell.hasBomb()){
                 drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
             }
+
             // Draw the black frame for each square
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3));
@@ -169,6 +179,61 @@ public class Board extends JComponent {
             }
             col++;
         }
+		}// end server
+		else if(Client.currentArray != null){ //client
+			//System.out.println("Client Paint");
+			int row = 1, col = 1;
+			for (int x=1 ; x <= boardSize ;x++){
+		        //background color
+				g.setColor(new Color(169, 173, 185));
+		        g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
+
+				char character = Client.currentArray.charAt(x-1);
+				switch(character){
+					case('a'):		g.setColor(new Color(0,100,0));
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
+									break;
+					case('b'):		g.setColor(Color.blue);
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
+									break;
+					case('c'):
+									break;
+					case('d'):
+									break;
+					case('v'):		drawBomb(g,col*cellSize+cellSize/2,row*cellSize+cellSize/2,cellSize/4,Color.black);
+									break;
+					case('f'):		g.setColor(Color.RED);
+               						g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
+									break;
+					case('o'):		g.setColor(Color.ORANGE);
+                					g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
+									break;
+					case('n'):		drawBarrel(g,col*cellSize,row*cellSize);
+									break;
+					case('m'):		g.setColor(new Color(54,54,54));
+                					g.fillRect(col*cellSize,row*cellSize,cellSize,cellSize);
+									break;
+					case('q'):		g.setColor(Color.black); // dead player
+									g.fillRect(col*cellSize+4,row*cellSize+4,cellSize-8,cellSize-8);
+									break;
+					default:		break; // empty square will default
+				}
+				// Draw the black frame for each square
+		        Graphics2D g2 = (Graphics2D) g;
+		        g2.setStroke(new BasicStroke(3));
+		        g2.setColor(Color.black);
+		        g2.drawRect(col*cellSize,row*cellSize,cellSize,cellSize);
+
+
+		        if (x%rowSize == 0){ // reset to new row
+		            row++;
+		            col=0;
+		        }
+		        col++;
+			}
+		}else{
+			System.out.println("Null Arr");
+		}
 
 
     }

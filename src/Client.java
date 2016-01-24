@@ -7,7 +7,7 @@ import java.net.*;
 /**
  * Created by zakary on 12/13/15.
  */
-public class Client {
+public class Client implements Runnable{
 
     public enum movement{
       UP, DOWN, LEFT, RIGHT, BOMB
@@ -16,8 +16,10 @@ public class Client {
     DatagramSocket sndSocket;
     DatagramSocket recvSocket;
     DatagramPacket receivePacket;
-    byte[] receiveBuf = new byte[1024];
-    byte[] sendData = new byte[1024];
+    byte[] receiveBuf = new byte[500];
+    byte[] sendData = new byte[500];
+    public static String currentArray;
+
 
     public Client(int port){
       try{
@@ -28,7 +30,15 @@ public class Client {
       }
     }
 
-    public char[] getArrFromServer(){
+    public void run(){
+      while(true){
+
+            getArrFromServer();
+            Main.gameBoard.repaint();
+      }
+    }
+
+    public char[] getArrFromServer(){	// remove the return just update the currentArray static
         char[] Arr = new char[Main.BSIZE];
         DatagramPacket receivePacket = new DatagramPacket(
                                             receiveBuf,receiveBuf.length);
@@ -38,29 +48,24 @@ public class Client {
             e.printStackTrace();
         }
         // recieveBuf has the data in byte array
-        String temp = new String(receiveBuf);
+
+        String temp = currentArray = new String(receiveBuf);
         return temp.toCharArray();
     }
 
     // Call this from Controller Class to send moves recieved from keyboard
     public void sendMoveToServer(movement m) throws IOException{
-        char send_digit;
         String temp;
         switch(m){
-          case UP:      send_digit = 'u'; // UP
-                        temp = "u";
+          case UP:      temp = "u";
                         break;
-          case DOWN:    send_digit = 'd'; // DOWN
-                        temp = "d";
+          case DOWN:    temp = "d";
                         break;
-          case LEFT:    send_digit = 'l'; // LEFT
-                        temp = "l";
+          case LEFT:    temp = "l";
                         break;
-          case RIGHT:   send_digit = 'r'; // RIGHT
-                        temp = "r";
+          case RIGHT:   temp = "r";
                         break;
-          case BOMB:    send_digit = 'b'; // BOMB
-                        temp = "b";
+          case BOMB:    temp = "b";
                         break;
           default:      System.out.println("Error in Client");
                         return;

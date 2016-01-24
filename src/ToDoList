@@ -3,6 +3,13 @@ TO DO
 
 Fixes
 
+- Lag issue:
+    The client has very little lag sending a move to the server and getting the
+    board back and repainting it
+    The server has notably more lag sending a board directly to the client (for
+    the board on the client to update)
+    may fix to add lag to the controllers to slow the game down
+    
 - Simplify code using the gameBoard statics
 - Document classes with comments
 
@@ -14,8 +21,7 @@ Fixes
 - error still exists where fire is not getting put out
 
 Optimize
-- resize the datagram smaller
-- figure out how to print from the array, so only the server has to run the board
+
 
 - use the address of the first message so that both addresses don't need to be used
     create a sync process
