@@ -101,6 +101,7 @@ public class Main {
         }else{/*--------------------------------------CLIENT-----------------*/
 
             Client client = new Client(9998);
+            frame.setVisible(true);
 
             myController = new Controller(2,client);
             myController.addKeyBindings();
