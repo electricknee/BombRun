@@ -85,7 +85,7 @@ public class Main {
             // block cells here -> gameBoard.blockCell(index);
 
             gameBoard.addPlayer(0, new Player(1));
-            gameBoard.addPlayer(gameBoard.boardSize-1, new Player(2));
+            gameBoard.addPlayer(gameBoard.getBoardSize()-1, new Player(2));
             gameBoard.repaint();
 
             frame.setVisible(true);

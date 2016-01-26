@@ -7,17 +7,18 @@ import java.awt.Graphics2D;
 import java.io.IOException;
 /**
  * Created by zakary on 6/28/15.
+
  */
 public class Board extends JComponent {
 
-    public int rowSize = 20;
-    public int boardSize = rowSize*rowSize;
+    private int rowSize = 20;
+    private int boardSize = rowSize*rowSize;
     private int cellSize = 30;
     private Cell[] boardCells;
-    private int player1Index=0;
-    private int player2Index=0;
-    private boolean server=false;
-//-------------------------------------------------------------------------------------
+    private int player1Index = 0;
+    private int player2Index = 0;
+    private boolean server = false;
+//------------------------------------------------------------------------------
     /* update board of server and all clients*/
     public void universalRepaint(){
 
@@ -30,6 +31,9 @@ public class Board extends JComponent {
         }
         this.repaint();
     }
+
+    public int getBoardSize() { return boardSize; }
+    public int getRowSize() { return rowSize; }
 
     public void printPlayers(){
         System.out.println("Player indexes");
@@ -93,9 +97,7 @@ public class Board extends JComponent {
             else if(ID==2)
                 player2Index=Index;
     }
-    public int getRowSize(){
-        return this.rowSize;
-    }
+
     public Board(int rs,boolean withBarrels){
         this.rowSize = rs;
         this.boardSize = rs*rs;
@@ -514,20 +516,20 @@ public class Board extends JComponent {
         Stroke temp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(2));
         g2d.setColor(Color.BLACK);
-        g2d.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
+        g2d.fillOval(x-radius, y-radius, 2*radius, 2*radius);
         g2d.setColor(color);
-        g.drawOval(x - radius, y - radius, 2 * radius, 2 * radius);
-        g.drawLine(x, y - radius, x, y - (radius * 4 / 3));
+        g.drawOval(x-radius, y-radius, 2*radius, 2*radius);
+        g.drawLine(x, y-radius, x, y - (radius *4/3));
         g2d.setStroke(temp);
         g.setColor(Color.RED);
-        g.fillOval(x-radius/3,y-(radius*3/2),radius/2,radius/2);
+        g.fillOval(x-radius/3, y-(radius*3/2), radius/2, radius/2);
 
     }
     private void drawBarrel(Graphics g, int x, int y){
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(new Color(87,35,7));
+        g.setColor(new Color(87, 35, 7));
         g.fillRect(x,y,cellSize,cellSize);
-        g.setColor(new Color(130, 75,9));
+        g.setColor(new Color(130, 75, 9));
         Stroke temp = ((Graphics2D) g).getStroke();
         ((Graphics2D) g).setStroke(new BasicStroke(4));
         g2d.drawLine(x,y,x+cellSize,y+cellSize);

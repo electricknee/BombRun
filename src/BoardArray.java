@@ -16,7 +16,7 @@ public class BoardArray{
     /* Does not create any new objects, space must already be allocated */
     public static void convertBoardtoArray(Board board, char[] bArray){
 
-        for(int i=0 ; i < board.boardSize ; i++){
+        for(int i=0 ; i < board.getBoardSize() ; i++){
             Cell cp = board.getCell(i);
 
             if(cp.isBlocked()){
@@ -53,7 +53,7 @@ public class BoardArray{
     /* Does not create any new objects, space must already be allocated */
     public static void writeArraytoBoard(char[] Arr, Board board){
 
-        for(int i=0 ; i < board.boardSize ; i++){
+        for(int i=0 ; i < board.getBoardSize() ; i++){
             board.getCell(i).clearCell();   // remove all old objects
 
             switch(Arr[i]){
