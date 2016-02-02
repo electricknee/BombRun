@@ -13,12 +13,12 @@ public class Client implements Runnable{
       UP, DOWN, LEFT, RIGHT, BOMB
     }
     //updated server
-    DatagramSocket sndSocket;
-    DatagramSocket recvSocket;
-    DatagramPacket receivePacket;
-    byte[] receiveBuf = new byte[500];
-    byte[] sendData = new byte[500];
-    public static String currentArray;
+    private DatagramSocket sndSocket;
+    private DatagramSocket recvSocket;
+    private DatagramPacket receivePacket;
+    private byte[] receiveBuf = new byte[500];
+    private byte[] sendData = new byte[500];
+    static String currentArray;
 
 
     public Client(int port){

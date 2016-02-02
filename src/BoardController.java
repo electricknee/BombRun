@@ -12,7 +12,7 @@ public class BoardController{
 
     public BoardController(Board b){
         this.board = b;
-        this.rowSize = board.rowSize;
+        this.rowSize = board.getRowSize();
     }
 
     public void playerAction(int playerID, movement m ){

@@ -12,10 +12,10 @@ import java.net.*;
 public class HostServer implements Runnable{
 
     private BoardController boardController;
-    DatagramSocket recvSocket;
-    DatagramSocket sndSocket;
-    byte[] sendData = new byte[500];
-    byte[] recvData = new byte[500];
+    private DatagramSocket recvSocket;
+    private DatagramSocket sndSocket;
+    private byte[] sendData = new byte[500];
+    private byte[] recvData = new byte[500];
 
     public HostServer(int port,Board brd){
 
